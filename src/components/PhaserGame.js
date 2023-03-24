@@ -55,7 +55,7 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr }) {
     this.load.setBaseURL(
       'https://cdn.jsdelivr.net/gh/seoJing/WARdle@main/phaserAssets/'
     );
-    this.load.image('platform', 'playerShip1_green.png');
+    this.load.image('platform', 'PlayerWalk%2048x48.png');
     this.load.image('clearPoint', 'bolt_gold.png');
     this.load.image('obstacle', 'ufoRed.png');
     this.load.spritesheet('player', 'PlayerWalk%2048x48.png', {
