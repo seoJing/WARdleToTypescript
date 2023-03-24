@@ -1,0 +1,163 @@
+.exit_button {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  left: 1280px;
+  top: 73px;
+  
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+}
+
+.next_help_button {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 0px;
+  height: 0px;
+  left: 1280px;
+  top: 645px;
+
+  border: 5px solid #157741;
+  border-bottom: 30px solid transparent;
+  border-top: 30px solid transparent;
+  border-left: 50px solid #2BAE66;
+  border-right: 50px solid transparent;;
+}
+
+.background {
+  box-sizing: border-box; 
+  
+  position: absolute; 
+  width: 1368px;
+  height: 954px;
+  left: 36px;
+  top: 35px;
+  
+  background: #FCF6F5;
+  border: 5px solid #157741;
+  border-radius: 65px;
+}
+  
+.text1 {
+  position: absolute;
+  width: 445px;
+  height: 288px;
+  left: 779px;
+  top: 492px;
+  
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 48px;
+  text-align: right;
+  
+  color: #000000;
+}
+
+.title {
+  position: absolute;
+  width: 1167px;
+  height: 71px;
+  left: 136px;
+  top: 234px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 57px;
+  line-height: 73px;
+
+  color: #000000;
+}
+
+.head_text {
+  position: absolute;
+  width: 400px;
+  height: 54px;
+  left: 304px;
+  top: 389px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 45px;
+  line-height: 54px;
+
+  color: #000000;
+}
+
+.ex {
+  position: absolute;
+  width: 523px;
+  height: 427px;
+  left: 197px;
+  top: 461px;
+}
+
+.text2 {
+  position: absolute;
+  width: 439px;
+  height: 240px;
+  left: 782px;
+  top: 555px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 48px;
+  text-align: right;
+
+  color: #000000;
+}
+
+.text3 {
+  position: absolute;
+  width: 461px;
+  height: 336px;
+  left: 771px;
+  top: 507px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 48px;
+  text-align: right;
+
+  color: #000000;
+}
+
+.text4 {
+  position: absolute;
+  width: 501px;
+  height: 384px;
+  left: 751px;
+  top: 483px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 36px;
+  line-height: 48px;
+  text-align: right;
+
+  color: #000000;
+}
+
+.page {
+  position: absolute;
+  width: 82px;
+  height: 24px;
+  left: 66px;
+  top: 938px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #000000;
+}

@@ -1,23 +1,19 @@
-import style from '../css/Contents.module.css';
+import styles from '../css/Phase1.module.css';
 
 function Content({ answerArr, checkArr }) {
   const content = answerArr.map((row, i) => {
     const spans = row.map((char, j) => {
       const color =
         checkArr[i][j] === 'O'
-          ? 'green'
+          ? '#2BAE66'
           : checkArr[i][j] === 'C'
-          ? 'yellow'
-          : 'gray';
+          ? '#ebb20a'
+          : '#90949d';
 
       return (
         <span
-          style={{
-            backgroundColor: color,
-            fontSize: '50px',
-            margin: '5px',
-            padding: '10px',
-          }}
+          className={styles.content}
+          style={{ backgroundColor: color }}
           key={`${i}-${j}`}
         >
           {char}
@@ -32,7 +28,7 @@ function Content({ answerArr, checkArr }) {
     );
   });
 
-  return <div>{content}</div>;
+  return <div style={{ marginTop: '39px', marginRight: '7px' }}>{content}</div>;
 }
 
 export default Content;

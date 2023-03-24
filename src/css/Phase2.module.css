@@ -1,0 +1,54 @@
+.score {
+  position: absolute;
+  width: 114px;
+  height: 109px;
+  left: 663px;
+  top: 30px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 90px;
+  line-height: 109px;
+
+  display: flex;
+  justify-content: center; 
+
+  color: #000000;
+}
+
+canvas {
+  position: absolute;
+  width: 541px;
+  height: 705px;
+  left: 449px;
+  top: 240px;
+  z-index: 0;
+}
+
+.phaserGame {
+  position: absolute;
+  width: 541px;
+  height: 705px;
+  left: 449px;
+  top: 240px;
+
+  background: rgba(252, 246, 245, 0.01);
+  box-shadow: inset 0px 4px 90px 40px rgba(0, 0, 0, 0.25);
+  z-index: 1;
+}
+
+.background {
+  box-sizing: border-box; 
+  
+  position: absolute; 
+  width: 1368px;
+  height: 954px;
+  left: 36px;
+  top: 35px;
+  
+  background: #2BAE66;
+  border: 5px solid #157741;
+  border-radius: 65px;
+  z-index: 0;
+}

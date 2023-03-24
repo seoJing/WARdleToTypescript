@@ -1,0 +1,111 @@
+.background {
+  box-sizing: border-box; 
+
+  position: absolute; 
+  width: 1368px;
+  height: 954px;
+  left: 36px;
+  top: 35px;
+
+  background: #FCF6F5;
+  border: 5px solid #157741;
+  border-radius: 65px;
+  z-index: 0;
+}
+
+.start_div {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 577px;
+  height: 535px;
+  left: 431px;
+  top: 454px;
+
+  background: #2BAE66;
+  border: 5px solid #157741;
+  border-radius: 46px 46px 0px 0px;
+  z-index: 0;
+}
+
+.start_button {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 344px;
+  height: 129px;
+  left: 548px;
+  top: 765px;
+  
+  background: #FCF6F5;
+  border: 3px solid #157741;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 72px;
+  z-index: 1;
+}
+
+.start_button_text {
+  position: absolute;
+  width: 166px;
+  height: 54px;
+  left: 637px;
+  top: 803px;
+  
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 54px;
+  
+  color: #000000;
+  z-index: 2;
+}
+
+.help_button {
+  box-sizing: border-box;
+
+  position: absolute;
+  width: 344px;
+  height: 129px;
+  left: 548px;
+  top: 562px;
+
+  background: #FCF6F5;
+  border: 3px solid #157741;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 72px;
+  z-index: 1;
+}
+
+.help_button_text {
+  position: absolute;
+  width: 125px;
+  height: 54px;
+  left: 657px;
+  top: 600px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 40px;
+  line-height: 54px;
+
+  color: #000000;
+  z-index: 2;
+}
+
+.introduce {
+  position: absolute;
+  width: 336px;
+  height: 48px;
+  left: 72px;
+  top: 921px;
+
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 24px;
+
+  color: #000000;
+}

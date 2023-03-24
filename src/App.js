@@ -1,60 +1,89 @@
 import { Main } from './routes/Main';
 import { Phase1 } from './routes/Phase1';
 import { Phase2 } from './routes/Phase2';
+import { Gameover } from './routes/Gameover';
+import { Clear } from './routes/Clear';
+import { Help1 } from './routes/Help1';
+import { Help2 } from './routes/Help2';
+import { Help3 } from './routes/Help3';
+import { Help4 } from './routes/Help4';
+import { rightAnswerArr } from './rightAnswerArr';
 import React, { useState } from 'react';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Hangul from 'hangul-js';
 
-const Hangul = require('hangul-js');
-
-const rightAnswerArr = ['정답', '성찬', '동근', '컴공', '남악'];
-const rightAnswer = Hangul.disassemble(
-  rightAnswerArr[Math.floor(Math.random() * 5)]
+const disassembledAnswers = rightAnswerArr.map((answer) =>
+  Hangul.disassemble(answer)
 );
-
-/*
-const query = encodeURIComponent('성찬'); // 한글 검색어 인코딩
-const url = `/api/search.do?certkey_no=4896&key=402B006003314065E15631D7480E9316&type_search=search&req_type=xml&q=${query}`;
-
-fetch(url)
-  .then((response) => response.text())
-  .then((xmlString) => {
-    const parser = new DOMParser();
-    const xmlDoc = parser.parseFromString(xmlString, 'text/xml');
-    console.log(xmlDoc);
-  })
-  .catch((error) => console.error(error)); // 실패
-*/
+const randomIndex = Math.floor(Math.random() * rightAnswerArr.length);
+const initialAnswer = disassembledAnswers[randomIndex];
 
 function App() {
   const [checkArr, setCheckArr] = useState([]);
   const [answerArr, setAnswerArr] = useState([]);
+  const [score, setScore] = useState(0);
+  const [rightAnswer, setRightAnswer] = useState(initialAnswer);
+
+  function handleRestart() {
+    const newIndex = Math.floor(Math.random() * rightAnswerArr.length);
+    document.body.style.background = '#2BAE66';
+    setRightAnswer(disassembledAnswers[newIndex]);
+    setCheckArr([]);
+    setAnswerArr([]);
+    setScore(0);
+  }
 
   return (
     <>
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <Router>
         <Routes>
-          <Route path={`${process.env.PUBLIC_URL}/`} element={<Main />} />
+          <Route path={`/`} element={<Main />} />
           <Route
-            path={`${process.env.PUBLIC_URL}/Phase1`}
+            path={`/Phase1`}
             element={
               <Phase1
                 checkArr={checkArr}
                 setCheckArr={setCheckArr}
                 answerArr={answerArr}
                 setAnswerArr={setAnswerArr}
+                score={score}
+                setScore={setScore}
+                rightAnswer={rightAnswer}
               ></Phase1>
             }
           ></Route>
           <Route
-            path={`${process.env.PUBLIC_URL}/Phase2`}
+            path={`/Phase2`}
             element={
-              <Phase2 checkArr={checkArr} answerArr={answerArr}></Phase2>
+              <Phase2
+                checkArr={checkArr}
+                setCheckArr={setCheckArr}
+                answerArr={answerArr}
+                score={score}
+                setScore={setScore}
+              ></Phase2>
             }
           ></Route>
+          <Route
+            path={`/Gameover`}
+            element={
+              <Gameover score={score} handleRestart={handleRestart}></Gameover>
+            }
+          ></Route>
+          <Route
+            path={`/Clear`}
+            element={
+              <Clear score={score} handleRestart={handleRestart}></Clear>
+            }
+          ></Route>
+          <Route path={`/Help1`} element={<Help1></Help1>}></Route>
+          <Route path={`/Help2`} element={<Help2></Help2>}></Route>
+          <Route path={`/Help3`} element={<Help3></Help3>}></Route>
+          <Route path={`/Help4`} element={<Help4></Help4>}></Route>
         </Routes>
-      </BrowserRouter>
+      </Router>
     </>
   );
 }
 
-export { App, rightAnswer };
+export { App };
