@@ -47,12 +47,13 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
   const prameWidth = 541;
   const prameHeight = 705;
   const width = 541;
-  const height = checkArr.length * 200;
+  const height = checkArr.length * 200 + 200;
 
   let player;
   let platformGroup;
   let clearPoint;
-  let obstacleGroup;
+  let orangeObstacleGroup;
+  let grayObstacleGroup;
   let angle = 0;
   let radius = 150;
   let speed = 0.05;
@@ -87,15 +88,19 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
 
   function preload() {
     this.load.setBaseURL(
-      'https://cdn.jsdelivr.net/gh/seoJing/WARdle@master/phaserAssets'
+      'https://cdn.jsdelivr.net/gh/seoJing/WARdle@master/phaserAssets/'
     );
     this.load.spritesheet('platforms', 'platforms.png', {
-      frameWidth: 63,
-      frameHeight: 63,
+      frameWidth: 121,
+      frameHeight: 119,
     });
-    this.load.spritesheet('obstacles', 'obstacles.png', {
-      frameWidth: 63,
-      frameHeight: 63,
+    this.load.spritesheet('orangeObstacles', 'obstacles.png', {
+      frameWidth: 66,
+      frameHeight: 66,
+    });
+    this.load.spritesheet('grayObstacles', 'obstacles.png', {
+      frameWidth: 66,
+      frameHeight: 66,
     });
     this.load.image('clearPoint', 'clearPoint.png');
     this.load.spritesheet('playerRunRight', 'runCycleRight.png', {
@@ -122,10 +127,10 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
 
   function create() {
     player = this.physics.add
-      .sprite(width / 2, height - 100, 'player')
+      .sprite(width / 2, height - 150, 'player')
       .setDisplaySize(65, 65)
       .setSize(25, 35)
-      .setOffset(11, 10)
+      .setOffset(11, 5)
       .setCollideWorldBounds(true)
       .setVelocity(0, 0)
       .setGravityY(2000);
@@ -181,44 +186,62 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
     });
 
     platformGroup = this.physics.add.staticGroup();
-    obstacleGroup = this.physics.add.group();
+    orangeObstacleGroup = this.physics.add.group();
+    grayObstacleGroup = this.physics.add.group();
 
     checkArr.forEach((row, i) => {
       row.forEach((value, j) => {
+        const index = hangulArr.indexOf(answerArr[i][j]);
         if (value === 'O' || value === 'C') {
           if (isFirst) {
             clearPoint = this.physics.add
-              .image(j * 85 + 50, i * 200, 'clearPoint')
-              .setSize(50, 50)
+              .image(j * 91 + 50, i * 190 + 100, 'clearPoint')
               .setImmovable()
-              .setDisplaySize(70, 70);
+              .setSize(500, 500)
+              .setDisplaySize(100, 100);
             isFirst = false;
           }
 
-          const index = hangulArr.indexOf(answerArr[i][j]);
-
           platformGroup
-            .create(j * 85 + 50, i * 200 + 200, 'platforms')
+            .create(j * 91 + 50, i * 190 + 400, 'platforms')
             .setImmovable()
-            .setSize(50, 50)
-            .setDisplaySize(70, 70).frame = index;
+            .setSize(60, 60)
+            .setDisplaySize(80, 80)
+            .setOffset(30, 30)
+            .setFrame(index)
+            .setDepth(2);
         }
         if (value === 'C') {
-          const obstacle = obstacleGroup
-            .create(j * 85 + 50, i * 200 + 200, 'obstacles')
-            .setCircle(45)
-            .setSize(75, 75)
-            .setDisplaySize(50, 50);
+          const obstacle = orangeObstacleGroup
+            .create(j * 91 + 50, i * 190 + 400, 'orangeObstacles')
+            .setImmovable()
+            .setSize(85, 85)
+            .setDisplaySize(60, 60)
+            .setCircle(30, 30)
+            .setOffset(2, 2)
+            .setFrame(index)
+            .setDepth(3);
           obstacle.update = function () {
-            this.x = j * 85 + 50 + radius * Math.cos(angle);
-            this.y = i * 200 + radius * Math.sin(angle);
+            this.x = j * 91 + 50 + radius * Math.cos(angle);
+            this.y = i * 190 + 400 + radius * Math.sin(angle);
+          };
+        }
+        if (value === 'X') {
+          const obstacle = grayObstacleGroup
+            .create(j * 91 + 50, i * 190 + 400, 'platforms')
+            .setImmovable()
+            .setSize(60, 60)
+            .setDisplaySize(80, 80)
+            .setOffset(30, 30)
+            .setFrame(index)
+            .setDepth(1);
+          obstacle.update = function () {
+            this.x = j * 91 + 50 + Math.cos(angle) * 200;
           };
         }
       });
     });
-
-    this.physics.add.collider(player, platformGroup);
-    this.physics.add.collider(player, obstacleGroup, function () {
+    function colliderObstacle() {
       setScore((score) => score - 5);
       if (player.y <= width) {
         player.y += 10;
@@ -227,7 +250,10 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
         player.y -= 10;
         player.setVelocityX(500);
       }
-    });
+    }
+    this.physics.add.collider(player, platformGroup);
+    this.physics.add.collider(player, orangeObstacleGroup, colliderObstacle);
+    this.physics.add.collider(player, grayObstacleGroup, colliderObstacle);
     this.physics.add.overlap(player, clearPoint, navigateToClear);
 
     this.physics.world.setBounds(0, 0, width, height);
@@ -282,12 +308,14 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
     }
 
     angle += speed;
-    for (let i = 0; i < obstacleGroup.getChildren().length; i++) {
-      const obstacle = obstacleGroup.getChildren()[i];
+    for (let i = 0; i < orangeObstacleGroup.getChildren().length; i++) {
+      const obstacle = orangeObstacleGroup.getChildren()[i];
       obstacle.update();
     }
-
-    if (player.y <= 0) navigateToClear();
+    for (let i = 0; i < grayObstacleGroup.getChildren().length; i++) {
+      const obstacle = grayObstacleGroup.getChildren()[i];
+      obstacle.update();
+    }
   }
 
   useEffect(() => {

@@ -42,8 +42,8 @@
   position: absolute;
   width: 445px;
   height: 288px;
-  left: 779px;
-  top: 492px;
+  left: 800px;
+  top: 550px;
   
   font-family: 'Inter';
   font-style: normal;
@@ -90,16 +90,16 @@
 .ex {
   position: absolute;
   width: 523px;
-  height: 427px;
+  height: 500px;
   left: 197px;
-  top: 461px;
+  top: 400px;
 }
 
 .text2 {
   position: absolute;
-  width: 439px;
+  width: 500px;
   height: 240px;
-  left: 782px;
+  left: 750px;
   top: 555px;
 
   font-family: 'Inter';
@@ -116,8 +116,8 @@
   position: absolute;
   width: 461px;
   height: 336px;
-  left: 771px;
-  top: 507px;
+  left: 790px;
+  top: 550px;
 
   font-family: 'Inter';
   font-style: normal;
@@ -134,7 +134,7 @@
   width: 501px;
   height: 384px;
   left: 751px;
-  top: 483px;
+  top: 550px;
 
   font-family: 'Inter';
   font-style: normal;

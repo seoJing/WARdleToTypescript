@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/Phase2.module.css';
-import deathImg from '../img/PlayerDeath.gif';
+import deathImg from '../img/playerDeath.gif';
 
 function Death() {
   const navigate = useNavigate();

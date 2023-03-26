@@ -24,7 +24,6 @@ function Help1() {
       <div className={styles.title}>
         WARdle은 2가지 Phase로 나누어 진행됩니다.
       </div>
-      <div className={styles.head_text}>Phase1 Wordle</div>
       <img src={exImg} className={styles.ex} alt="ex"></img>
       <div className={styles.page}>Help 1/4</div>
       <img

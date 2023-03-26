@@ -1,14 +1,17 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Hangul from 'hangul-js';
+import Hangul, { rangeSearch } from 'hangul-js';
 import styles from '../css/Phase1.module.css';
+import { rightAnswerArr } from '../rightAnswerArr';
 
 function checkAnswer(
   answer,
   setScore,
   setInputText,
   rightAnswer,
-  navigateToPhase2
+  navigateToPhase2,
+  setNextButton,
+  setIsRight
 ) {
   let newCheck = Array(rightAnswer.length).fill('X');
   let checkIndex = [];
@@ -37,7 +40,12 @@ function checkAnswer(
 
   if (newCheck.every((char) => char === 'O')) {
     setInputText('정답입니다!');
-    navigateToPhase2();
+    setIsRight(true);
+    setNextButton(
+      <button onClick={navigateToPhase2} className={styles.nextButton}>
+        Phase2 이동
+      </button>
+    );
   }
 
   return newCheck;
@@ -45,6 +53,8 @@ function checkAnswer(
 
 function Input({ setCheckArr, setAnswerArr, setScore, rightAnswer }) {
   const [inputText, setInputText] = useState(['']);
+  const [nextButton, setNextButton] = useState(<></>);
+  const [isRight, setIsRight] = useState(false);
 
   const navigate = useNavigate();
   const navigateToPhase2 = useCallback(() => {
@@ -58,21 +68,29 @@ function Input({ setCheckArr, setAnswerArr, setScore, rightAnswer }) {
 
     if (event.code !== 'Enter' || event.nativeEvent.isComposing) return;
 
-    if (Hangul.disassemble(event.target.value).length === rightAnswer.length) {
-      const newAnswer = Hangul.disassemble(event.target.value);
-      const newCheck = checkAnswer(
-        newAnswer,
-        setScore,
-        setInputText,
-        rightAnswer,
-        navigateToPhase2
-      );
+    if (!isRight) {
+      if (
+        Hangul.disassemble(event.target.value).length === rightAnswer.length
+      ) {
+        const newAnswer = Hangul.disassemble(event.target.value);
+        const newCheck = checkAnswer(
+          newAnswer,
+          setScore,
+          setInputText,
+          rightAnswer,
+          navigateToPhase2,
+          setNextButton,
+          setIsRight
+        );
 
-      setAnswerArr((current) => [...current, newAnswer]);
-      setCheckArr((current) => [...current, newCheck]);
-      event.target.value = '';
+        setAnswerArr((current) => [...current, newAnswer]);
+        setCheckArr((current) => [...current, newCheck]);
+        event.target.value = '';
+      } else {
+        setInputText(`정답은 ${rightAnswer.length}글자입니다!!`);
+      }
     } else {
-      setInputText(`정답은 ${rightAnswer.length}글자입니다!!`);
+      navigateToPhase2();
     }
   }
 
@@ -85,6 +103,7 @@ function Input({ setCheckArr, setAnswerArr, setScore, rightAnswer }) {
       ></input>
       <div className={styles.inputTextDiv}></div>
       <div className={styles.inputText}>{inputText}</div>
+      {nextButton}
     </>
   );
 }
