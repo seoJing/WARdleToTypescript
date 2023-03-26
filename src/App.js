@@ -7,6 +7,7 @@ import { Help1 } from './routes/Help1';
 import { Help2 } from './routes/Help2';
 import { Help3 } from './routes/Help3';
 import { Help4 } from './routes/Help4';
+import { Death } from './routes/Death';
 import { rightAnswerArr } from './rightAnswerArr';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
@@ -80,6 +81,7 @@ function App() {
           <Route path={`/Help2`} element={<Help2></Help2>}></Route>
           <Route path={`/Help3`} element={<Help3></Help3>}></Route>
           <Route path={`/Help4`} element={<Help4></Help4>}></Route>
+          <Route path={`/Death`} element={<Death></Death>}></Route>
         </Routes>
       </Router>
     </>

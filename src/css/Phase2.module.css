@@ -52,3 +52,12 @@ canvas {
   border-radius: 65px;
   z-index: 0;
 }
+
+.deathImg {
+  position: absolute;
+  width: 419px;
+  height: 419px;
+  left: 510px;
+  top: 352px;
+  z-index: 1;
+}
