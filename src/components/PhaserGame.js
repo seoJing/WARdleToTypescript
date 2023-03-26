@@ -1,7 +1,7 @@
 import * as Phaser from 'phaser';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-//setup
+
 const hangulArr = [
   'ㄱ',
   'ㄴ',
