@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const rightSlice = createSlice({
+const rightAnswerSlice = createSlice({
   name: 'rightAnswer',
   initialState: { value: [] },
   reducers: {
@@ -10,5 +10,5 @@ const rightSlice = createSlice({
   },
 });
 
-export { rightSlice };
-export const { setRightAnswer } = rightSlice.ations;
+export { rightAnswerSlice };
+export const { setRightAnswer } = rightAnswerSlice.ations;

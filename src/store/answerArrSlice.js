@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const answerSlice = createSlice({
+const answerArrSlice = createSlice({
   name: 'answerArr',
   initialState: { value: [] },
   reducers: {
@@ -10,5 +10,5 @@ const answerSlice = createSlice({
   },
 });
 
-export { answerSlice };
-export const { setAnswerArr } = answerSlice.ations;
+export { answerArrSlice };
+export const { setAnswerArr } = answerArrSlice.ations;

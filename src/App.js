@@ -13,7 +13,7 @@ import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Hangul from 'hangul-js';
 import { useDispatch } from 'react-redux';
-import { set } from './store';
+import { setCheckArr } from './store/checkArrSlice';
 
 const disassembledAnswers = rightAnswerArr.map((answer) =>
   Hangul.disassemble(answer)
@@ -32,7 +32,7 @@ function App() {
     const newIndex = Math.floor(Math.random() * rightAnswerArr.length);
     document.body.style.background = '#2BAE66';
     setRightAnswer(disassembledAnswers[newIndex]);
-    dispatch(set([]));
+    dispatch(setCheckArr([]));
     setAnswerArr([]);
     setScore(0);
   }

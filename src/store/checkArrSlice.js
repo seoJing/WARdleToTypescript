@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const checkSlice = createSlice({
+const checkArrSlice = createSlice({
   name: 'checkArr',
   initialState: { value: [] },
   reducers: {
@@ -10,5 +10,5 @@ const checkSlice = createSlice({
   },
 });
 
-export { checkSlice };
-export const { setCheckArr } = checkSlice.ations;
+export { checkArrSlice };
+export const { setCheckArr } = checkArrSlice.ations;
