@@ -12,6 +12,8 @@ import { rightAnswerArr } from './rightAnswerArr';
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Hangul from 'hangul-js';
+import { useDispatch } from 'react-redux';
+import { set } from './store';
 
 const disassembledAnswers = rightAnswerArr.map((answer) =>
   Hangul.disassemble(answer)
@@ -20,6 +22,7 @@ const randomIndex = Math.floor(Math.random() * rightAnswerArr.length);
 const initialAnswer = disassembledAnswers[randomIndex];
 
 function App() {
+  const dispatch = useDispatch();
   const [checkArr, setCheckArr] = useState([]);
   const [answerArr, setAnswerArr] = useState([]);
   const [score, setScore] = useState(0);
@@ -29,7 +32,7 @@ function App() {
     const newIndex = Math.floor(Math.random() * rightAnswerArr.length);
     document.body.style.background = '#2BAE66';
     setRightAnswer(disassembledAnswers[newIndex]);
-    setCheckArr([]);
+    dispatch(set([]));
     setAnswerArr([]);
     setScore(0);
   }
@@ -58,7 +61,6 @@ function App() {
             element={
               <Phase2
                 checkArr={checkArr}
-                setCheckArr={setCheckArr}
                 answerArr={answerArr}
                 score={score}
                 setScore={setScore}

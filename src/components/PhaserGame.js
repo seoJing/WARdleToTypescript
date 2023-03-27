@@ -33,16 +33,7 @@ const hangulArr = [
   'ㅣ',
 ];
 
-function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
-  for (let i = 0; i < checkArr.length; i++) {
-    let e = checkArr[i];
-    if (e.every((char) => char === 'X')) {
-      checkArr.splice(i, 1);
-      i--;
-    }
-  }
-  setCheckArr(checkArr);
-
+function PhaserGame({ checkArr, score, setScore, answerArr }) {
   const gameRef = useRef(null);
   const prameWidth = 541;
   const prameHeight = 705;
@@ -94,13 +85,13 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
       frameWidth: 121,
       frameHeight: 119,
     });
-    this.load.spritesheet('orangeObstacles', 'obstacles.png', {
+    this.load.spritesheet('orangeObstacles', 'orangeObstacles.png', {
       frameWidth: 66,
       frameHeight: 66,
     });
-    this.load.spritesheet('grayObstacles', 'obstacles.png', {
-      frameWidth: 66,
-      frameHeight: 66,
+    this.load.spritesheet('grayObstacles', 'grayObstacles.png', {
+      frameWidth: 121,
+      frameHeight: 119,
     });
     this.load.image('clearPoint', 'clearPoint.png');
     this.load.spritesheet('playerRunRight', 'runCycleRight.png', {
@@ -190,6 +181,8 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
     grayObstacleGroup = this.physics.add.group();
 
     checkArr.forEach((row, i) => {
+      let countGray = 0;
+
       row.forEach((value, j) => {
         const index = hangulArr.indexOf(answerArr[i][j]);
         if (value === 'O' || value === 'C') {
@@ -211,7 +204,7 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
             .setFrame(index)
             .setDepth(2);
         }
-        if (value === 'C') {
+        if (value === 'C' && i < checkArr.length - 2) {
           const obstacle = orangeObstacleGroup
             .create(j * 91 + 50, i * 190 + 400, 'orangeObstacles')
             .setImmovable()
@@ -226,9 +219,10 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
             this.y = i * 190 + 400 + radius * Math.sin(angle);
           };
         }
-        if (value === 'X') {
+        if (value === 'X' && countGray < 2) {
+          countGray++;
           const obstacle = grayObstacleGroup
-            .create(j * 91 + 50, i * 190 + 400, 'platforms')
+            .create(j * 91 + 50, i * 190 + 400, 'grayObstacles')
             .setImmovable()
             .setSize(60, 60)
             .setDisplaySize(80, 80)
@@ -236,12 +230,14 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
             .setFrame(index)
             .setDepth(1);
           obstacle.update = function () {
-            this.x = j * 91 + 50 + Math.cos(angle) * 200;
+            this.x = j * 91 + 50 + Math.cos(angle) * 300;
           };
         }
       });
     });
-    function colliderObstacle() {
+
+    this.physics.add.collider(player, platformGroup);
+    this.physics.add.collider(player, orangeObstacleGroup, () => {
       setScore((score) => score - 5);
       if (player.y <= width) {
         player.y += 10;
@@ -250,10 +246,8 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
         player.y -= 10;
         player.setVelocityX(500);
       }
-    }
-    this.physics.add.collider(player, platformGroup);
-    this.physics.add.collider(player, orangeObstacleGroup, colliderObstacle);
-    this.physics.add.collider(player, grayObstacleGroup, colliderObstacle);
+    });
+    this.physics.add.collider(player, grayObstacleGroup);
     this.physics.add.overlap(player, clearPoint, navigateToClear);
 
     this.physics.world.setBounds(0, 0, width, height);
@@ -279,26 +273,22 @@ function PhaserGame({ checkArr, score, setScore, setCheckArr, answerArr }) {
       wKeyJustDown = true;
     }
 
-    if (keys.W.isUp) {
-      wKeyJustDown = false;
-    }
-    if (keys.A.isDown) {
-      player.x -= 7;
-      if (player.body.onFloor()) player.anims.play('left', true);
-    }
-    if (keys.S.isDown) {
-      player.body.setVelocityY(500);
-    }
-    if (keys.D.isDown) {
-      player.x += 7;
-      if (player.body.onFloor()) player.anims.play('right', true);
-    }
+    if (keys.W.isUp) wKeyJustDown = false;
+
+    if (keys.A.isDown) player.x -= 7;
+
+    if (keys.S.isDown) player.body.setVelocityY(500);
+
+    if (keys.D.isDown) player.x += 7;
+
     if (player.body.onFloor()) {
-      if (!keys.A.isDown && !keys.D.isDown) player.anims.play('idle', true);
+      player.anims.play(
+        keys.A.isDown ? 'left' : keys.D.isDown ? 'right' : 'idle',
+        true
+      );
       canDoubleJump = true;
-    } else if (!player.body.onFloor()) {
-      if (!canDoubleJump) player.anims.play('airSpin', true);
-      else player.anims.play('jump', true);
+    } else {
+      player.anims.play(!canDoubleJump ? 'airSpin' : 'jump', true);
     }
 
     player.setVelocityY(player.body.velocity.y * 0.95);

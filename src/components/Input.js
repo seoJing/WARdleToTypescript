@@ -1,8 +1,7 @@
 import React, { useState, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
-import Hangul, { rangeSearch } from 'hangul-js';
+import Hangul from 'hangul-js';
 import styles from '../css/Phase1.module.css';
-import { rightAnswerArr } from '../rightAnswerArr';
 
 function checkAnswer(
   answer,
