@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import greenSoundWav from '../sound/green.wav';
+import graySoundWav from '../sound/gray.wav';
 
 const hangulArr = [
   'ㄱ',
@@ -33,7 +35,7 @@ const hangulArr = [
   'ㅣ',
 ];
 
-function PhaserGame({ checkArr, score, setScore, answerArr }) {
+function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
   const gameRef = useRef(null);
   const prameWidth = 541;
   const prameHeight = 705;
@@ -56,6 +58,13 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
 
   let interval;
 
+  let jumpSound;
+  let hitSound;
+  const greenSound = new Audio(greenSoundWav);
+  greenSound.volume = 0.5;
+  const graySound = new Audio(graySoundWav);
+  graySound.volume = 0.5;
+
   useEffect(() => {
     interval = setInterval(() => {
       setScore((score) => score - 1);
@@ -65,12 +74,18 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
 
   const navigate = useNavigate();
   function navigateToDeath() {
+    mainSound.pause();
+    mainSound.currentTime = 0;
+    graySound.play();
     gameRef.current.destroy(true);
-    navigate('/Death');
+    navigate(`${process.env.PUBLIC_URL}/Death`);
   }
   function navigateToClear() {
+    mainSound.pause();
+    mainSound.currentTime = 0;
+    greenSound.play();
     gameRef.current.destroy(true);
-    navigate('/Clear');
+    navigate(`${process.env.PUBLIC_URL}/Clear`);
   }
 
   useEffect(() => {
@@ -79,7 +94,7 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
 
   function preload() {
     this.load.setBaseURL(
-      'https://cdn.jsdelivr.net/gh/seoJing/WARdle@master/phaserAssets/'
+      'https://cdn.jsdelivr.net/gh/seoJing/WARdlePhaserAssets@main/'
     );
     this.load.spritesheet('platforms', 'platforms.png', {
       frameWidth: 121,
@@ -114,6 +129,8 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
       frameWidth: 48,
       frameHeight: 48,
     });
+    this.load.audio('jumpSound', ['jump.wav']);
+    this.load.audio('hitSound', ['hit.wav']);
   }
 
   function create() {
@@ -181,8 +198,7 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
     grayObstacleGroup = this.physics.add.group();
 
     checkArr.forEach((row, i) => {
-      let countGray = 0;
-
+      let platformCount = 0;
       row.forEach((value, j) => {
         const index = hangulArr.indexOf(answerArr[i][j]);
         if (value === 'O' || value === 'C') {
@@ -194,15 +210,17 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
               .setDisplaySize(100, 100);
             isFirst = false;
           }
-
-          platformGroup
-            .create(j * 91 + 50, i * 190 + 400, 'platforms')
-            .setImmovable()
-            .setSize(60, 60)
-            .setDisplaySize(80, 80)
-            .setOffset(30, 30)
-            .setFrame(index)
-            .setDepth(2);
+          if (platformCount < 4) {
+            platformGroup
+              .create(j * 91 + 50, i * 190 + 400, 'platforms')
+              .setImmovable()
+              .setSize(60, 60)
+              .setDisplaySize(80, 80)
+              .setOffset(30, 30)
+              .setFrame(index)
+              .setDepth(2);
+            if (i !== checkArr.length - 1) platformCount++;
+          }
         }
         if (value === 'C' && i < checkArr.length - 2) {
           const obstacle = orangeObstacleGroup
@@ -219,8 +237,7 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
             this.y = i * 190 + 400 + radius * Math.sin(angle);
           };
         }
-        if (value === 'X' && countGray < 2) {
-          countGray++;
+        if (value === 'X') {
           const obstacle = grayObstacleGroup
             .create(j * 91 + 50, i * 190 + 400, 'grayObstacles')
             .setImmovable()
@@ -230,14 +247,22 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
             .setFrame(index)
             .setDepth(1);
           obstacle.update = function () {
-            this.x = j * 91 + 50 + Math.cos(angle) * 300;
+            if (j * 91 + 50 < width / 2)
+              this.x = j * 91 + 50 - Math.cos(angle) * 200;
+            else this.x = j * 91 + 50 + Math.cos(angle) * 200;
           };
         }
       });
     });
 
+    hitSound = this.sound.add('hitSound');
+    jumpSound = this.sound.add('jumpSound');
+    hitSound.setVolume(0.3);
+    jumpSound.setVolume(0.3);
+
     this.physics.add.collider(player, platformGroup);
     this.physics.add.collider(player, orangeObstacleGroup, () => {
+      hitSound.play();
       setScore((score) => score - 5);
       if (player.y <= width) {
         player.y += 10;
@@ -269,6 +294,7 @@ function PhaserGame({ checkArr, score, setScore, answerArr }) {
       !wKeyJustDown
     ) {
       player.body.setVelocityY(-900);
+      jumpSound.play();
       canDoubleJump = false;
       wKeyJustDown = true;
     }

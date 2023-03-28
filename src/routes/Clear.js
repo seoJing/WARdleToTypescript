@@ -1,10 +1,15 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/Clear.module.css';
+import buttonSound3Wav from '../sound/button3.wav';
 
 function Clear({ score, handleRestart }) {
+  const buttonSound3 = new Audio(buttonSound3Wav);
+  buttonSound3.volume = 0.1;
+
   const navigate = useNavigate();
 
   function handleOnClick() {
+    buttonSound3.play();
     handleRestart();
     navigate('/');
   }

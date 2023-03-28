@@ -9,11 +9,11 @@ import { Help3 } from './routes/Help3';
 import { Help4 } from './routes/Help4';
 import { Death } from './routes/Death';
 import { rightAnswerArr } from './rightAnswerArr';
+import mainSoundMp3 from './sound/main.mp3';
+
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Hangul from 'hangul-js';
-import { useDispatch } from 'react-redux';
-import { setCheckArr } from './store/checkArrSlice';
 
 const disassembledAnswers = rightAnswerArr.map((answer) =>
   Hangul.disassemble(answer)
@@ -21,8 +21,9 @@ const disassembledAnswers = rightAnswerArr.map((answer) =>
 const randomIndex = Math.floor(Math.random() * rightAnswerArr.length);
 const initialAnswer = disassembledAnswers[randomIndex];
 
+const mainSound = new Audio(mainSoundMp3);
+
 function App() {
-  const dispatch = useDispatch();
   const [checkArr, setCheckArr] = useState([]);
   const [answerArr, setAnswerArr] = useState([]);
   const [score, setScore] = useState(0);
@@ -32,18 +33,21 @@ function App() {
     const newIndex = Math.floor(Math.random() * rightAnswerArr.length);
     document.body.style.background = '#2BAE66';
     setRightAnswer(disassembledAnswers[newIndex]);
-    dispatch(setCheckArr([]));
+    setCheckArr([]);
     setAnswerArr([]);
     setScore(0);
   }
 
   return (
     <>
-      <Router>
+      <Router basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route path={`/`} element={<Main />} />
           <Route
-            path={`/Phase1`}
+            path={`${process.env.PUBLIC_URL}/`}
+            element={<Main mainSound={mainSound} />}
+          />
+          <Route
+            path={`${process.env.PUBLIC_URL}/Phase1`}
             element={
               <Phase1
                 checkArr={checkArr}
@@ -57,33 +61,49 @@ function App() {
             }
           ></Route>
           <Route
-            path={`/Phase2`}
+            path={`${process.env.PUBLIC_URL}/Phase2`}
             element={
               <Phase2
                 checkArr={checkArr}
                 answerArr={answerArr}
                 score={score}
                 setScore={setScore}
+                mainSound={mainSound}
               ></Phase2>
             }
           ></Route>
           <Route
-            path={`/Gameover`}
+            path={`${process.env.PUBLIC_URL}/Gameover`}
             element={
               <Gameover score={score} handleRestart={handleRestart}></Gameover>
             }
           ></Route>
           <Route
-            path={`/Clear`}
+            path={`${process.env.PUBLIC_URL}/Clear`}
             element={
               <Clear score={score} handleRestart={handleRestart}></Clear>
             }
           ></Route>
-          <Route path={`/Help1`} element={<Help1></Help1>}></Route>
-          <Route path={`/Help2`} element={<Help2></Help2>}></Route>
-          <Route path={`/Help3`} element={<Help3></Help3>}></Route>
-          <Route path={`/Help4`} element={<Help4></Help4>}></Route>
-          <Route path={`/Death`} element={<Death></Death>}></Route>
+          <Route
+            path={`${process.env.PUBLIC_URL}/Help1`}
+            element={<Help1></Help1>}
+          ></Route>
+          <Route
+            path={`${process.env.PUBLIC_URL}/Help2`}
+            element={<Help2></Help2>}
+          ></Route>
+          <Route
+            path={`${process.env.PUBLIC_URL}/Help3`}
+            element={<Help3></Help3>}
+          ></Route>
+          <Route
+            path={`${process.env.PUBLIC_URL}/Help4`}
+            element={<Help4></Help4>}
+          ></Route>
+          <Route
+            path={`${process.env.PUBLIC_URL}/Death`}
+            element={<Death></Death>}
+          ></Route>
         </Routes>
       </Router>
     </>

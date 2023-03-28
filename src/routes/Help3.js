@@ -2,15 +2,21 @@ import { useNavigate } from 'react-router-dom';
 import styles from '../css/Help.module.css';
 import exitImg from '../img/exit.png';
 import exImg from '../img/ex3.png';
+import buttonSoundWav from '../sound/button.wav';
 
 function Help3() {
+  const buttonSound = new Audio(buttonSoundWav);
+  buttonSound.volume = 0.1;
+
   const navigate = useNavigate();
 
   function navigatorToMain() {
-    navigate('/');
+    buttonSound.play();
+    navigate(`${process.env.PUBLIC_URL}/`);
   }
   function navigateToNextHelp() {
-    navigate('/Help4');
+    buttonSound.play();
+    navigate(`${process.env.PUBLIC_URL}/Help4`);
   }
   return (
     <>

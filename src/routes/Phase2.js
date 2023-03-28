@@ -1,7 +1,7 @@
 import { PhaserGame } from '../components/PhaserGame';
 import styles from '../css/Phase2.module.css';
 
-function Phase2({ answerArr, checkArr, score, setScore }) {
+function Phase2({ answerArr, checkArr, score, setScore, mainSound }) {
   document.body.style.background = '#FCF6F5';
 
   return (
@@ -14,6 +14,7 @@ function Phase2({ answerArr, checkArr, score, setScore }) {
         answerArr={answerArr}
         score={score}
         setScore={setScore}
+        mainSound={mainSound}
       ></PhaserGame>
     </>
   );

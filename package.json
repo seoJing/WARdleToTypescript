@@ -56,5 +56,6 @@
   },
   "devDependencies": {
     "@svgr/webpack": "^6.5.1"
-  }
+  },
+  "homepage": "https://seoJing.github.io/WARdle/"
 }

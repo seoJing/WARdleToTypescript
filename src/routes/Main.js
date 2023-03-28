@@ -1,38 +1,25 @@
 import styles from '../css/Main.module.css';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
-import music from '../music/main.mp3';
+import buttonSound3Wav from '../sound/button3.wav';
 
-function Main() {
-  const [audio] = useState(new Audio(music)); // 음악 파일 경로 설정
-  const [isPlaying, setIsPlaying] = useState(false); // 음악 재생 여부 상태
-
-  useEffect(() => {
-    if (isPlaying) {
-      audio.play(); // 음악 재생
-    } else {
-      audio.pause(); // 음악 일시정지
-    }
-  }, [isPlaying, audio]);
-
-  const togglePlay = () => {
-    setIsPlaying(!isPlaying); // 음악 재생 여부 상태 변경
-  };
+function Main({ mainSound }) {
+  const buttonSound3 = new Audio(buttonSound3Wav);
+  buttonSound3.volume = 0.1;
+  mainSound.volume = 0.4;
 
   const navigate = useNavigate();
   function navigateToPhase1() {
-    navigate('/Phase1');
+    buttonSound3.play();
+    mainSound.play();
+    navigate(`${process.env.PUBLIC_URL}/Phase1`);
   }
   function navigateToHelp1() {
-    navigate('/Help1');
+    buttonSound3.play();
+    navigate(`${process.env.PUBLIC_URL}/Help1`);
   }
 
   return (
     <>
-      <div>
-        <button onClick={togglePlay}>{isPlaying ? '일시정지' : '재생'}</button>{' '}
-        // 재생/일시정지 버튼
-      </div>
       <div className={styles.background}></div>
       <div onClick={navigateToPhase1} className={styles.start_button}></div>
       <div onClick={navigateToPhase1} className={styles.start_button_text}>
