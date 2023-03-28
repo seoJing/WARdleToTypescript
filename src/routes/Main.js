@@ -11,11 +11,11 @@ function Main({ mainSound }) {
   function navigateToPhase1() {
     buttonSound3.play();
     mainSound.play();
-    navigate(`${process.env.PUBLIC_URL}/Phase1`);
+    navigate('/Phase1');
   }
   function navigateToHelp1() {
     buttonSound3.play();
-    navigate(`${process.env.PUBLIC_URL}/Help1`);
+    navigate('/Help1');
   }
 
   return (

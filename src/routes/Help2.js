@@ -12,11 +12,11 @@ function Help2() {
 
   function navigatorToMain() {
     buttonSound.play();
-    navigate(`${process.env.PUBLIC_URL}/`);
+    navigate('/');
   }
   function navigateToNextHelp() {
     buttonSound.play();
-    navigate(`${process.env.PUBLIC_URL}/Help3`);
+    navigate('/Help3');
   }
   return (
     <>

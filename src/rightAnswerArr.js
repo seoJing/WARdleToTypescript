@@ -897,6 +897,4 @@ let rightAnswerArr = [
   '희생',
 ];
 
-rightAnswerArr = ['한번'];
-
 export { rightAnswerArr };

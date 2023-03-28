@@ -78,14 +78,14 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
     mainSound.currentTime = 0;
     graySound.play();
     gameRef.current.destroy(true);
-    navigate(`${process.env.PUBLIC_URL}/Death`);
+    navigate('/Death');
   }
   function navigateToClear() {
     mainSound.pause();
     mainSound.currentTime = 0;
     greenSound.play();
     gameRef.current.destroy(true);
-    navigate(`${process.env.PUBLIC_URL}/Clear`);
+    navigate('/Clear');
   }
 
   useEffect(() => {

@@ -25,7 +25,7 @@ function Input({ setCheckArr, setAnswerArr, setScore, rightAnswer }) {
   const navigate = useNavigate();
   function navigateToPhase2() {
     ButtonSound3.play();
-    navigate(`${process.env.PUBLIC_URL}/Phase2`);
+    navigate('/Phase2');
   }
 
   function checkAnswer(answer) {

@@ -42,12 +42,9 @@ function App() {
     <>
       <Router basename={process.env.PUBLIC_URL}>
         <Routes>
+          <Route path={`/`} element={<Main mainSound={mainSound} />} />
           <Route
-            path={`${process.env.PUBLIC_URL}/`}
-            element={<Main mainSound={mainSound} />}
-          />
-          <Route
-            path={`${process.env.PUBLIC_URL}/Phase1`}
+            path={`/Phase1`}
             element={
               <Phase1
                 checkArr={checkArr}
@@ -61,7 +58,7 @@ function App() {
             }
           ></Route>
           <Route
-            path={`${process.env.PUBLIC_URL}/Phase2`}
+            path={`/Phase2`}
             element={
               <Phase2
                 checkArr={checkArr}
@@ -73,37 +70,22 @@ function App() {
             }
           ></Route>
           <Route
-            path={`${process.env.PUBLIC_URL}/Gameover`}
+            path={`/Gameover`}
             element={
               <Gameover score={score} handleRestart={handleRestart}></Gameover>
             }
           ></Route>
           <Route
-            path={`${process.env.PUBLIC_URL}/Clear`}
+            path={`/Clear`}
             element={
               <Clear score={score} handleRestart={handleRestart}></Clear>
             }
           ></Route>
-          <Route
-            path={`${process.env.PUBLIC_URL}/Help1`}
-            element={<Help1></Help1>}
-          ></Route>
-          <Route
-            path={`${process.env.PUBLIC_URL}/Help2`}
-            element={<Help2></Help2>}
-          ></Route>
-          <Route
-            path={`${process.env.PUBLIC_URL}/Help3`}
-            element={<Help3></Help3>}
-          ></Route>
-          <Route
-            path={`${process.env.PUBLIC_URL}/Help4`}
-            element={<Help4></Help4>}
-          ></Route>
-          <Route
-            path={`${process.env.PUBLIC_URL}/Death`}
-            element={<Death></Death>}
-          ></Route>
+          <Route path={`/Help1`} element={<Help1></Help1>}></Route>
+          <Route path={`/Help2`} element={<Help2></Help2>}></Route>
+          <Route path={`/Help3`} element={<Help3></Help3>}></Route>
+          <Route path={`/Help4`} element={<Help4></Help4>}></Route>
+          <Route path={`/Death`} element={<Death></Death>}></Route>
         </Routes>
       </Router>
     </>
