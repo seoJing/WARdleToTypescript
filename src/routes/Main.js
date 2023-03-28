@@ -1,6 +1,7 @@
 import styles from '../css/Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import buttonSound3Wav from '../sound/button3.wav';
+import wardleLogo from '../img/WARdle.png';
 
 function Main({ mainSound }) {
   const buttonSound3 = new Audio(buttonSound3Wav);
@@ -20,6 +21,7 @@ function Main({ mainSound }) {
 
   return (
     <>
+      <img src={wardleLogo} alt="logo" className={styles.logo}></img>
       <div className={styles.background}></div>
       <div onClick={navigateToPhase1} className={styles.start_button}></div>
       <div onClick={navigateToPhase1} className={styles.start_button_text}>

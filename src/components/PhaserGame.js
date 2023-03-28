@@ -347,7 +347,7 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
       physics: {
         default: 'arcade',
         arcade: {
-          debug: true,
+          debug: false,
         },
       },
       scene: {

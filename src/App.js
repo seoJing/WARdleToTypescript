@@ -22,6 +22,7 @@ const randomIndex = Math.floor(Math.random() * rightAnswerArr.length);
 const initialAnswer = disassembledAnswers[randomIndex];
 
 const mainSound = new Audio(mainSoundMp3);
+mainSound.loop = true;
 
 function App() {
   const [checkArr, setCheckArr] = useState([]);
@@ -37,7 +38,7 @@ function App() {
     setAnswerArr([]);
     setScore(0);
   }
-
+  //basename={process.env.PUBLIC_URL}
   return (
     <>
       <Router basename={process.env.PUBLIC_URL}>

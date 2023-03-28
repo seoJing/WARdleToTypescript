@@ -1,6 +1,13 @@
+import { useEffect, useRef } from 'react';
 import styles from '../css/Phase1.module.css';
 
 function Content({ answerArr, checkArr }) {
+  const scrollRef = useRef();
+  useEffect(() => {
+    // 현재 스크롤 위치 === scrollRef.current.scrollTop
+    // 스크롤 길이 === scrollRef.current.scrollHeight
+    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+  });
   // answerArr와 checkArr을 받아와서 content 변수에 map 함수를 이용하여 새로운 배열을 생성한다.
   const content = answerArr.map((row, i) => {
     // row와 i를 받아와서 spans 변수에 map 함수를 이용하여 새로운 배열을 생성한다.
@@ -34,7 +41,21 @@ function Content({ answerArr, checkArr }) {
   });
 
   // content 변수에 저장된 배열을 div 태그로 감싸서 반환한다.
-  return <div style={{ marginTop: '39px', marginRight: '7px' }}>{content}</div>;
+  return (
+    <div
+      ref={scrollRef}
+      style={{
+        marginTop: '39px',
+        marginRight: '7px',
+        overflow: 'scroll',
+        width: '541px',
+        height: '550px',
+        boxShadow: 'inset 0px 5px 12px 5px rgba(0, 0, 0, 0.25)',
+      }}
+    >
+      {content}
+    </div>
+  );
 }
 
 export default Content;

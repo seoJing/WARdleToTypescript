@@ -48,13 +48,13 @@ function Hint({ checkArr, answerArr }) {
         const key = `${i}-${j}`;
         const isChange = changedIndices.find((index) => index.key === key);
 
-        if (element === 'X' && !isChange) {
+        if (element === 'X') {
           spansRef.current[key].style.backgroundColor = '#90949d';
           setChangedIndices((current) => [
             ...current,
             { key, color: '#90949d' },
           ]);
-        } else if (element === 'O' && !isChange) {
+        } else if (element === 'O') {
           spansRef.current[key].style.backgroundColor = '#2BAE66';
           setChangedIndices((current) => [
             ...current,
