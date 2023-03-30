@@ -61,3 +61,14 @@ canvas {
   top: 352px;
   z-index: 1;
 }
+
+.exit_button {
+  position: absolute;
+  width: 80px;
+  height: 80px;
+  left: 1280px;
+  top: 73px;
+  
+  transform: matrix(-1, 0, 0, 1, 0, 0);
+  z-index: 4;
+}

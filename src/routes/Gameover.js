@@ -1,17 +1,13 @@
 import { useNavigate } from 'react-router-dom';
-import styles from '../css/Gameover.module.css';
-import buttonSound3Wav from '../sound/button3.wav';
+import styles from '../css/Ending.module.css';
 
-function Gameover({ handleRestart }) {
-  const buttonSound3 = new Audio(buttonSound3Wav);
-  buttonSound3.volume = 0.1;
-
+function Gameover({ handleRestart, buttonSound3, rightAnswer }) {
   const navigate = useNavigate();
 
   function handleOnClick() {
     buttonSound3.play();
     handleRestart();
-    navigate('/');
+    navigate('/main');
   }
 
   return (
@@ -19,8 +15,8 @@ function Gameover({ handleRestart }) {
       <div className={styles.background}></div>
       <div className={styles.Gameover}>GAMEOVER</div>
       <div className={styles.overText}>
-        주어진 스코어를{<br></br>}
-        모두 소진했습니다
+        클리어에 실패했습니다{<br></br>}
+        Phase1 정답 : {rightAnswer}
       </div>
       <button onClick={handleOnClick} className={styles.navigationToHome}>
         다시하기

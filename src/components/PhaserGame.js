@@ -1,8 +1,6 @@
 import * as Phaser from 'phaser';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import greenSoundWav from '../sound/green.wav';
-import graySoundWav from '../sound/gray.wav';
 
 const hangulArr = [
   'ㄱ',
@@ -35,7 +33,7 @@ const hangulArr = [
   'ㅣ',
 ];
 
-function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
+function PhaserGame({ checkArr, score, setScore, answerArr, greenSound }) {
   const gameRef = useRef(null);
   const prameWidth = 541;
   const prameHeight = 705;
@@ -60,10 +58,6 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
 
   let jumpSound;
   let hitSound;
-  const greenSound = new Audio(greenSoundWav);
-  greenSound.volume = 0.5;
-  const graySound = new Audio(graySoundWav);
-  graySound.volume = 0.5;
 
   useEffect(() => {
     interval = setInterval(() => {
@@ -73,24 +67,48 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
   }, []);
 
   const navigate = useNavigate();
-  function navigateToDeath() {
-    mainSound.pause();
-    mainSound.currentTime = 0;
-    graySound.play();
-    gameRef.current.destroy(true);
+  const navigateToDeath = () => {
     navigate('/Death');
-  }
-  function navigateToClear() {
-    mainSound.pause();
-    mainSound.currentTime = 0;
+  };
+  const navigateToClear = () => {
     greenSound.play();
-    gameRef.current.destroy(true);
     navigate('/Clear');
+  };
+  if (score <= 0) {
+    if (gameRef.current) {
+      gameRef.current.destroy(true);
+    }
+    navigate('/Death');
   }
 
   useEffect(() => {
-    if (score <= 0) navigateToDeath();
-  }, [score]);
+    const config = {
+      type: Phaser.AUTO,
+      width: prameWidth,
+      height: prameHeight,
+      backgroundColor: '#2BAE66',
+      scale: {
+        width: prameWidth,
+        height: prameHeight,
+      },
+      physics: {
+        default: 'arcade',
+        arcade: {
+          debug: false,
+        },
+      },
+      scene: {
+        preload,
+        create,
+        update,
+      },
+    };
+    gameRef.current = new Phaser.Game(config);
+
+    return () => {
+      if (gameRef.current) gameRef.current.destroy(true);
+    };
+  }, []);
 
   function preload() {
     this.load.setBaseURL(
@@ -134,6 +152,11 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
   }
 
   function create() {
+    this.events.on('shutdown', () => {
+      gameRef.current.destroy(true);
+      navigateToDeath();
+    });
+
     player = this.physics.add
       .sprite(width / 2, height - 150, 'player')
       .setDisplaySize(65, 65)
@@ -273,7 +296,10 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
       }
     });
     this.physics.add.collider(player, grayObstacleGroup);
-    this.physics.add.overlap(player, clearPoint, navigateToClear);
+    this.physics.add.overlap(player, clearPoint, () => {
+      navigateToClear();
+      gameRef.current.destroy(true);
+    });
 
     this.physics.world.setBounds(0, 0, width, height);
 
@@ -333,31 +359,6 @@ function PhaserGame({ checkArr, score, setScore, answerArr, mainSound }) {
       obstacle.update();
     }
   }
-
-  useEffect(() => {
-    const config = {
-      type: Phaser.AUTO,
-      width: prameWidth,
-      height: prameHeight,
-      backgroundColor: '#2BAE66',
-      scale: {
-        width: prameWidth,
-        height: prameHeight,
-      },
-      physics: {
-        default: 'arcade',
-        arcade: {
-          debug: false,
-        },
-      },
-      scene: {
-        preload,
-        create,
-        update,
-      },
-    };
-    gameRef.current = new Phaser.Game(config);
-  }, []);
 
   return <div ref={gameRef} />;
 }

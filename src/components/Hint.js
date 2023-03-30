@@ -40,21 +40,18 @@ function Hint({ checkArr, answerArr }) {
   });
 
   useEffect(() => {
-    if (checkArr && checkArr.length && answerArr && answerArr.length) {
-      checkArr[checkArr.length - 1].forEach((element, index) => {
-        const target = answerArr[answerArr.length - 1][index];
+    if (checkArr?.length && answerArr?.length) {
+      const lastCheckArr = checkArr[checkArr.length - 1];
+      const lastAnswerArr = answerArr[answerArr.length - 1];
+
+      lastCheckArr.forEach((element, index) => {
+        const target = lastAnswerArr[index];
         const i = hangulArr.findIndex((row) => row.includes(target));
         const j = hangulArr[i].indexOf(target);
         const key = `${i}-${j}`;
         const isChange = changedIndices.find((index) => index.key === key);
 
-        if (element === 'X') {
-          spansRef.current[key].style.backgroundColor = '#90949d';
-          setChangedIndices((current) => [
-            ...current,
-            { key, color: '#90949d' },
-          ]);
-        } else if (element === 'O') {
+        if (element === 'O') {
           spansRef.current[key].style.backgroundColor = '#2BAE66';
           setChangedIndices((current) => [
             ...current,
@@ -65,6 +62,12 @@ function Hint({ checkArr, answerArr }) {
           setChangedIndices((current) => [
             ...current,
             { key, color: '#ebb20a' },
+          ]);
+        } else if (element === 'X' && !isChange) {
+          spansRef.current[key].style.backgroundColor = '#90949d';
+          setChangedIndices((current) => [
+            ...current,
+            { key, color: '#90949d' },
           ]);
         }
       });

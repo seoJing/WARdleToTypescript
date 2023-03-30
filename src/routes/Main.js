@@ -1,14 +1,10 @@
 import styles from '../css/Main.module.css';
 import { useNavigate } from 'react-router-dom';
-import buttonSound3Wav from '../sound/button3.wav';
 import wardleLogo from '../img/WARdle.png';
 
-function Main({ mainSound }) {
-  const buttonSound3 = new Audio(buttonSound3Wav);
-  buttonSound3.volume = 0.1;
-  mainSound.volume = 0.4;
-
+function Main({ mainSound, buttonSound3 }) {
   const navigate = useNavigate();
+
   function navigateToPhase1() {
     buttonSound3.play();
     mainSound.play();
@@ -16,7 +12,7 @@ function Main({ mainSound }) {
   }
   function navigateToHelp1() {
     buttonSound3.play();
-    navigate('/Help1');
+    navigate('/Help');
   }
 
   return (
