@@ -1,6 +1,8 @@
 import * as Phaser from 'phaser';
 import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
+import exitImg from '../img/exit.png';
+import styles from '../css/Phase2.module.css';
 
 const hangulArr = [
   'ㄱ',
@@ -33,7 +35,14 @@ const hangulArr = [
   'ㅣ',
 ];
 
-function PhaserGame({ checkArr, score, setScore, answerArr, greenSound }) {
+function PhaserGame({
+  checkArr,
+  score,
+  setScore,
+  answerArr,
+  greenSound,
+  graySound,
+}) {
   const gameRef = useRef(null);
   const prameWidth = 541;
   const prameHeight = 705;
@@ -68,17 +77,26 @@ function PhaserGame({ checkArr, score, setScore, answerArr, greenSound }) {
 
   const navigate = useNavigate();
   const navigateToDeath = () => {
+    if (gameRef.current) {
+      gameRef.current.destroy(true);
+    }
+    graySound.play();
     navigate('/Death');
   };
   const navigateToClear = () => {
     greenSound.play();
     navigate('/Clear');
   };
-  if (score <= 0) {
-    if (gameRef.current) {
-      gameRef.current.destroy(true);
+  const navigatorToGameover = () => {
+    const confirmed = window.confirm(
+      `정말로 포기 하시겠습니까? \n게임오버 판정이 됩니다.`
+    );
+    if (confirmed) {
+      navigateToDeath();
     }
-    navigate('/Death');
+  };
+  if (score <= 0) {
+    navigateToDeath();
   }
 
   useEffect(() => {
@@ -360,7 +378,17 @@ function PhaserGame({ checkArr, score, setScore, answerArr, greenSound }) {
     }
   }
 
-  return <div ref={gameRef} />;
+  return (
+    <>
+      <img
+        src={exitImg}
+        className={styles.exit_button}
+        onClick={navigatorToGameover}
+        alt="exit_button"
+      ></img>
+      <div ref={gameRef} />
+    </>
+  );
 }
 
 export { PhaserGame };
