@@ -95,7 +95,10 @@ function Input({
 
     if (!isRight) {
       const pattern = /(.)\1{2}/;
-      if (!pattern.test(newAnswer.join(''))) {
+      if (
+        !pattern.test(newAnswer.join('')) &&
+        Hangul.assemble(newAnswer).length <= 3
+      ) {
         if (newAnswer.length === rightAnswer.length) {
           const newCheck = checkAnswer(newAnswer);
 

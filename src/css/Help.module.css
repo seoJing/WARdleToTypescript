@@ -38,19 +38,19 @@
   border-radius: 65px;
 }
   
-.text1 {
+.text {
   position: absolute;
-  width: 445px;
+  width: 1000px;
   height: 288px;
-  left: 800px;
-  top: 550px;
+  left: 100px;
+  top: 400px;
   
   font-family: 'Inter';
   font-style: normal;
   font-weight: 400;
-  font-size: 36px;
+  font-size: 30px;
   line-height: 48px;
-  text-align: right;
+  text-align: left;
   
   color: #000000;
 }
@@ -89,61 +89,12 @@
 
 .ex {
   position: absolute;
-  width: 523px;
-  height: 500px;
-  left: 197px;
-  top: 400px;
-}
-
-.text2 {
-  position: absolute;
   width: 500px;
-  height: 240px;
+  height: 500px;
   left: 750px;
-  top: 555px;
+  top: 400px;
 
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 48px;
-  text-align: right;
-
-  color: #000000;
-}
-
-.text3 {
-  position: absolute;
-  width: 461px;
-  height: 336px;
-  left: 790px;
-  top: 550px;
-
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 48px;
-  text-align: right;
-
-  color: #000000;
-}
-
-.text4 {
-  position: absolute;
-  width: 501px;
-  height: 384px;
-  left: 751px;
-  top: 550px;
-
-  font-family: 'Inter';
-  font-style: normal;
-  font-weight: 400;
-  font-size: 36px;
-  line-height: 48px;
-  text-align: right;
-
-  color: #000000;
+  border-radius: 50px;
 }
 
 .page {
