@@ -1,6 +1,5 @@
 import styles from '../css/Help.module.css';
 import exitImg from '../img/exit.png';
-import exImg0 from '../img/ex.png';
 import exImg1 from '../img/ex.png';
 import exImg2 from '../img/ex2.png';
 import exImg3 from '../img/ex3.png';
@@ -17,7 +16,7 @@ function Help({ buttonSound1, buttonSound2 }) {
   const getImageSrc = () => {
     switch (exImg) {
       case 0:
-        return exImg0;
+        return exImg1;
       case 1:
         return exImg1;
       case 2:

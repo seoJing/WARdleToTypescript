@@ -158,7 +158,7 @@ function PhaserGame({ checkArr, score, setScore, answerArr, greenSound }) {
     });
 
     player = this.physics.add
-      .sprite(width / 2, height - 150, 'player')
+      .sprite(width / 2, height - 200, 'player')
       .setDisplaySize(65, 65)
       .setSize(25, 35)
       .setOffset(11, 5)
