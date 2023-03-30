@@ -2,7 +2,7 @@ import styles from '../css/Help.module.css';
 import exitImg from '../img/exit.png';
 import exImg0 from '../img/ex.png';
 import exImg1 from '../img/ex.png';
-import exImg2 from '../img/ex3.png';
+import exImg2 from '../img/ex2.png';
 import exImg3 from '../img/ex3.png';
 import { useNavigate } from 'react-router-dom';
 import { useEffect, useState } from 'react';
