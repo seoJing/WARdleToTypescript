@@ -28,6 +28,7 @@ function Phase1({
       `정말로 포기 하시겠습니까? \n포기할 시 정답을 확인할 수 있습니다.`
     );
     if (confirmed) {
+      graySound.play();
       navigate('/Death');
     }
   };
