@@ -7,7 +7,7 @@ function Clear({ score, handleRestart, buttonSound3 }) {
   function handleOnClick() {
     buttonSound3.play();
     handleRestart();
-    navigate('/main');
+    navigate('/');
   }
 
   return (

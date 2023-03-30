@@ -95,7 +95,7 @@ function Help({ buttonSound1, buttonSound2 }) {
   const navigate = useNavigate();
   const navigatorToMain = () => {
     buttonSound1.play();
-    navigate('/main');
+    navigate('/');
   };
   const navigateToNextHelp = () => {
     buttonSound2.play();

@@ -76,9 +76,8 @@ function App() {
     <>
       <Router basename={process.env.PUBLIC_URL}>
         <Routes>
-          <Route path="/" element={<Navigate replace to="/main" />} />
           <Route
-            path={`/main`}
+            path={`/`}
             element={<Main mainSound={mainSound} buttonSound3={buttonSound3} />}
           />
           <Route

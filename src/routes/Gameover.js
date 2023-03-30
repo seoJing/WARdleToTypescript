@@ -7,7 +7,7 @@ function Gameover({ handleRestart, buttonSound3, rightAnswer }) {
   function handleOnClick() {
     buttonSound3.play();
     handleRestart();
-    navigate('/main');
+    navigate('/');
   }
 
   return (
