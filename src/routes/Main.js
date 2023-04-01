@@ -33,7 +33,7 @@ function Main({ mainSound, buttonSound3 }) {
         {<a href="https://github.com/seoJing/WARdle">소스코드 보러가기</a>}
         {<br></br>}
         {
-          <a href="https://fresh-neighbor-48b.notion.site/WARdle-2023-03-02-43adcf4d9ea5450db7b70339d73478b8">
+          <a href="https://fresh-neighbor-48b.notion.site/WARdle-2023-3-01-2023-3-31-54b3d1d7bc1b4975bffb10af91f02e7d">
             개발일지 보러가기
           </a>
         }
