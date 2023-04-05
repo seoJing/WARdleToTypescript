@@ -9,6 +9,7 @@ const changedDoubleConsonantArr = ['ㄱ', 'ㄷ', 'ㅂ', 'ㅅ', 'ㅈ'];
 function Input({
   setCheckArr,
   setAnswerArr,
+  answerArr,
   setScore,
   rightAnswer,
   greenSound,
@@ -93,9 +94,20 @@ function Input({
       }
     });
 
+    const alreadyInput = (newAnswer) => {
+      newAnswer = newAnswer.join('');
+      for (let i = 0; i < answerArr.length; i++) {
+        if (newAnswer === answerArr[i].join('')) return true;
+      }
+      return false;
+    };
+
     if (!isRight) {
       const pattern = /(.)\1{2}/;
-      if (
+      if (answerArr.length !== 0 && alreadyInput(newAnswer)) {
+        setInputText('이미 입력한 단어입니다.');
+        graySound.play();
+      } else if (
         !pattern.test(newAnswer.join('')) &&
         Hangul.assemble(newAnswer).length <= 3
       ) {
@@ -110,9 +122,11 @@ function Input({
           event.target.value = '';
         } else {
           setInputText(`정답은 6개의 자소로 이루어져 있습니다!!`);
+          graySound.play();
         }
       } else {
         setInputText(`올바르지 않은 단어입니다.`);
+        graySound.play();
       }
     } else {
       navigateToPhase2();

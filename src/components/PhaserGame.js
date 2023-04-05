@@ -62,6 +62,7 @@ function PhaserGame({
   let keys;
   let canDoubleJump;
   let wKeyJustDown = false;
+  let upKeyJustDown = false;
 
   let interval;
 
@@ -274,8 +275,8 @@ function PhaserGame({
             .setFrame(index)
             .setDepth(3);
           obstacle.update = function () {
-            this.x = j * 91 + 50 + radius * Math.cos(angle);
-            this.y = i * 190 + 400 + radius * Math.sin(angle);
+            this.x = j * 91 + 50 + radius * Math.cos(angle + j);
+            this.y = i * 190 + 400 + radius * Math.sin(angle + j);
           };
         }
         if (value === 'X') {
@@ -321,7 +322,7 @@ function PhaserGame({
 
     this.physics.world.setBounds(0, 0, width, height);
 
-    keys = this.input.keyboard.addKeys('W,A,S,D');
+    keys = this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT');
 
     this.cameras.main.setBounds(0, 0, width, height);
     this.cameras.main.setZoom(1, 1.1);
@@ -342,18 +343,33 @@ function PhaserGame({
       canDoubleJump = false;
       wKeyJustDown = true;
     }
+    if (
+      keys.UP.isDown &&
+      (player.body.onFloor() || canDoubleJump) &&
+      !upKeyJustDown
+    ) {
+      player.body.setVelocityY(-900);
+      jumpSound.play();
+      canDoubleJump = false;
+      upKeyJustDown = true;
+    }
 
     if (keys.W.isUp) wKeyJustDown = false;
+    if (keys.UP.isUp) upKeyJustDown = false;
 
-    if (keys.A.isDown) player.x -= 7;
+    if (keys.A.isDown || keys.LEFT.isDown) player.x -= 7;
 
-    if (keys.S.isDown) player.body.setVelocityY(500);
+    if (keys.S.isDown || keys.DOWN.isDown) player.body.setVelocityY(500);
 
-    if (keys.D.isDown) player.x += 7;
+    if (keys.D.isDown || keys.RIGHT.isDown) player.x += 7;
 
     if (player.body.onFloor()) {
       player.anims.play(
-        keys.A.isDown ? 'left' : keys.D.isDown ? 'right' : 'idle',
+        keys.A.isDown || keys.LEFT.isDown
+          ? 'left'
+          : keys.D.isDown || keys.RIGHT.isDown
+          ? 'right'
+          : 'idle',
         true
       );
       canDoubleJump = true;
