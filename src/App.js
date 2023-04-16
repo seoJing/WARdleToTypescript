@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { HashRouter, Routes, Route } from 'react-router-dom';
 import Hangul from 'hangul-js';
 
 import { Main } from './routes/Main';
@@ -69,7 +69,7 @@ function App() {
   //basename={process.env.PUBLIC_URL}
   return (
     <>
-      <Router>
+      <HashRouter>
         <Routes>
           <Route
             path={`/`}
@@ -142,7 +142,7 @@ function App() {
             element={<Death graySound={graySound}></Death>}
           ></Route>
         </Routes>
-      </Router>
+      </HashRouter>
     </>
   );
 }
