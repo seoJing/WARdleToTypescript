@@ -6,7 +6,22 @@ import exitImg from '../img/exit.png';
 
 import { useNavigate } from 'react-router-dom';
 
-function Phase1({
+interface Phase1Props {
+  checkArr: string[][];
+  setCheckArr: React.Dispatch<React.SetStateAction<string[][]>>;
+  answerArr: string[][];
+  setAnswerArr: React.Dispatch<React.SetStateAction<string[][]>>;
+  score: number;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
+  rightAnswer: string[];
+  buttonSound1: HTMLAudioElement;
+  greenSound: HTMLAudioElement;
+  graySound: HTMLAudioElement;
+  orangeSound: HTMLAudioElement;
+  buttonSound3: HTMLAudioElement;
+}
+
+const Phase1: React.FC<Phase1Props> = ({
   checkArr,
   setCheckArr,
   answerArr,
@@ -14,17 +29,16 @@ function Phase1({
   score,
   setScore,
   rightAnswer,
-  setBackgroundColor,
   buttonSound1,
   greenSound,
   graySound,
   orangeSound,
   buttonSound3,
-}) {
+}) => {
   const navigate = useNavigate();
   const navigatorToGameover = () => {
     buttonSound1.play();
-    const confirmed = window.confirm(
+    const confirmed: boolean = window.confirm(
       `정말로 포기 하시겠습니까? \n포기할 시 정답을 확인할 수 있습니다.`
     );
     if (confirmed) {
@@ -44,14 +58,11 @@ function Phase1({
       <div className={styles.background}></div>
       <div className={styles.score}>{score}</div>
       <Input
-        checkArr={checkArr}
         setCheckArr={setCheckArr}
         answerArr={answerArr}
         setAnswerArr={setAnswerArr}
-        score={score}
         setScore={setScore}
         rightAnswer={rightAnswer}
-        setBackgroundColor={setBackgroundColor}
         greenSound={greenSound}
         graySound={graySound}
         orangeSound={orangeSound}
@@ -65,6 +76,6 @@ function Phase1({
       </div>
     </>
   );
-}
+};
 
 export { Phase1 };

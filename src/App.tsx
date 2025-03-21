@@ -19,32 +19,32 @@ import graySoundWav from './sound/gray.wav';
 import greenSoundWav from './sound/green.wav';
 import orangeSoundWav from './sound/orange.wav';
 
-const mainSound = new Audio(mainSoundMp3);
+const mainSound: HTMLAudioElement = new Audio(mainSoundMp3);
 mainSound.loop = true;
 mainSound.volume = 0.4;
-const buttonSound1 = new Audio(buttonSound1Wav);
-const buttonSound2 = new Audio(buttonSound2Wav);
-const buttonSound3 = new Audio(buttonSound3Wav);
+const buttonSound1: HTMLAudioElement = new Audio(buttonSound1Wav);
+const buttonSound2: HTMLAudioElement = new Audio(buttonSound2Wav);
+const buttonSound3: HTMLAudioElement = new Audio(buttonSound3Wav);
 buttonSound1.volume = 0.1;
 buttonSound2.volume = 0.1;
 buttonSound3.volume = 0.1;
-const graySound = new Audio(graySoundWav);
-const greenSound = new Audio(greenSoundWav);
-const orangeSound = new Audio(orangeSoundWav);
+const graySound: HTMLAudioElement = new Audio(graySoundWav);
+const greenSound: HTMLAudioElement = new Audio(greenSoundWav);
+const orangeSound: HTMLAudioElement = new Audio(orangeSoundWav);
 greenSound.volume = 0.5;
 orangeSound.volume = 0.5;
 graySound.volume = 0.5;
 
 function App() {
-  const [checkArr, setCheckArr] = useState([]);
-  const [answerArr, setAnswerArr] = useState([]);
-  const [score, setScore] = useState(0);
-  const [rightAnswer, setRightAnswer] = useState(
+  const [checkArr, setCheckArr] = useState<string[][]>([]);
+  const [answerArr, setAnswerArr] = useState<string[][]>([]);
+  const [score, setScore] = useState<number>(0);
+  const [rightAnswer, setRightAnswer] = useState<string>(
     rightAnswerArr[Math.floor(Math.random() * rightAnswerArr.length)]
   );
-  const disassembleRightAnswer = Hangul.disassemble(rightAnswer);
+  const disassembleRightAnswer: string[] = Hangul.disassemble(rightAnswer);
 
-  const handleRestart = () => {
+  const handleRestart = (): void => {
     document.body.style.background = '#2BAE66';
     mainSound.pause();
     mainSound.currentTime = 0;
@@ -56,9 +56,8 @@ function App() {
     setScore(0);
   };
 
-  const preventClose = (e) => {
+  const preventClose = (e: Event): void => {
     e.preventDefault();
-    e.returnValue = ''; //Chrome에서 동작하도록; deprecated
   };
 
   useEffect(() => {
@@ -111,7 +110,6 @@ function App() {
             path={`/Gameover`}
             element={
               <Gameover
-                score={score}
                 handleRestart={handleRestart}
                 buttonSound3={buttonSound3}
                 rightAnswer={rightAnswer}
@@ -137,10 +135,7 @@ function App() {
               ></Help>
             }
           ></Route>
-          <Route
-            path={`/Death`}
-            element={<Death graySound={graySound}></Death>}
-          ></Route>
+          <Route path={`/Death`} element={<Death></Death>}></Route>
         </Routes>
       </HashRouter>
     </>

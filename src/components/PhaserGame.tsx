@@ -4,7 +4,16 @@ import { useNavigate } from 'react-router-dom';
 import exitImg from '../img/exit.png';
 import styles from '../css/Phase2.module.css';
 
-const hangulArr = [
+interface PhaserGameProps {
+  checkArr: string[][];
+  score: number;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
+  answerArr: string[][];
+  greenSound: HTMLAudioElement;
+  graySound: HTMLAudioElement;
+}
+
+const hangulArr: string[] = [
   'ㄱ',
   'ㄴ',
   'ㄷ',
@@ -35,46 +44,51 @@ const hangulArr = [
   'ㅣ',
 ];
 
-function PhaserGame({
+const PhaserGame: React.FC<PhaserGameProps> = ({
   checkArr,
   score,
   setScore,
   answerArr,
   greenSound,
   graySound,
-}) {
-  const gameRef = useRef(null);
-  const prameWidth = 541;
-  const prameHeight = 705;
-  const width = 541;
-  const height = checkArr.length * 200 + 200;
+}) => {
+  const gameContainerRef = useRef<HTMLDivElement | null>(null);
+  const gameRef = useRef<Phaser.Game | null>(null);
+  const prameWidth: number = 541;
+  const prameHeight: number = 705;
+  const width: number = 541;
+  const height: number = checkArr.length * 200 + 200;
 
-  let player;
-  let platformGroup;
-  let clearPoint;
-  let orangeObstacleGroup;
-  let grayObstacleGroup;
-  let angle = 0;
-  let radius = 150;
-  let speed = 0.02;
-  let isFirst = true;
+  let player: any;
+  let platformGroup: any;
+  let clearPoint: any;
+  let orangeObstacleGroup: any;
+  let grayObstacleGroup: any;
+  let angle: number = 0;
+  let radius: number = 150;
+  let speed: number = 0.02;
+  let isFirst: boolean = true;
 
-  let keys;
-  let canDoubleJump;
-  let wKeyJustDown = false;
-  let upKeyJustDown = false;
+  let keys: any;
+  let canDoubleJump: any;
+  let wKeyJustDown: boolean = false;
+  let upKeyJustDown: boolean = false;
 
-  let interval;
+  let jumpSound: any;
+  let hitSound: any;
 
-  let jumpSound;
-  let hitSound;
-
+  const intervalRef = useRef<NodeJS.Timeout | null>(null);
   useEffect(() => {
-    interval = setInterval(() => {
-      setScore((score) => score - 1);
+    intervalRef.current = setInterval(() => {
+      setScore((prevScore) => prevScore - 1);
     }, 1000);
-    return () => clearInterval(interval);
-  }, []);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [setScore]);
 
   const navigate = useNavigate();
   const navigateToDeath = () => {
@@ -88,8 +102,8 @@ function PhaserGame({
     greenSound.play();
     navigate('/Clear');
   };
-  const navigatorToGameover = () => {
-    const confirmed = window.confirm(
+  const navigatorToGameover = (): void => {
+    const confirmed: boolean = window.confirm(
       `정말로 포기 하시겠습니까? \n게임오버 판정이 됩니다.`
     );
     if (confirmed) {
@@ -101,35 +115,41 @@ function PhaserGame({
   }
 
   useEffect(() => {
-    const config = {
-      type: Phaser.AUTO,
-      width: prameWidth,
-      height: prameHeight,
-      backgroundColor: '#2BAE66',
-      scale: {
+    if (gameContainerRef.current && !gameRef.current) {
+      const config = {
+        type: Phaser.AUTO,
         width: prameWidth,
         height: prameHeight,
-      },
-      physics: {
-        default: 'arcade',
-        arcade: {
-          debug: false,
+        parent: gameContainerRef.current,
+        backgroundColor: '#2BAE66',
+        scale: {
+          width: prameWidth,
+          height: prameHeight,
         },
-      },
-      scene: {
-        preload,
-        create,
-        update,
-      },
-    };
-    gameRef.current = new Phaser.Game(config);
+        physics: {
+          default: 'arcade',
+          arcade: {
+            debug: false,
+          },
+        },
+        scene: {
+          preload,
+          create,
+          update,
+        },
+      };
+      gameRef.current = new Phaser.Game(config);
+    }
 
     return () => {
-      if (gameRef.current) gameRef.current.destroy(true);
+      if (gameRef.current) {
+        gameRef.current.destroy(true);
+        gameRef.current = null;
+      }
     };
   }, []);
 
-  function preload() {
+  function preload(this: Phaser.Scene) {
     this.load.setBaseURL(
       'https://cdn.jsdelivr.net/gh/seoJing/WARdlePhaserAssets@main/'
     );
@@ -170,9 +190,9 @@ function PhaserGame({
     this.load.audio('hitSound', ['hit.wav']);
   }
 
-  function create() {
+  function create(this: Phaser.Scene) {
     this.events.on('shutdown', () => {
-      gameRef.current.destroy(true);
+      if (gameRef.current !== null) gameRef.current.destroy(true);
       navigateToDeath();
     });
 
@@ -239,10 +259,10 @@ function PhaserGame({
     orangeObstacleGroup = this.physics.add.group();
     grayObstacleGroup = this.physics.add.group();
 
-    checkArr.forEach((row, i) => {
-      let platformCount = 0;
-      row.forEach((value, j) => {
-        const index = hangulArr.indexOf(answerArr[i][j]);
+    checkArr.forEach((row: string[], i: number) => {
+      let platformCount: number = 0;
+      row.forEach((value: string, j: number) => {
+        const index: number = hangulArr.indexOf(answerArr[i][j]);
         if (value === 'O' || value === 'C') {
           if (isFirst) {
             clearPoint = this.physics.add
@@ -265,7 +285,7 @@ function PhaserGame({
           }
         }
         if (value === 'C' && i < checkArr.length - 2) {
-          const obstacle = orangeObstacleGroup
+          const obstacle: any = orangeObstacleGroup
             .create(j * 91 + 50, i * 190 + 400, 'orangeObstacles')
             .setImmovable()
             .setSize(85, 85)
@@ -280,7 +300,7 @@ function PhaserGame({
           };
         }
         if (value === 'X') {
-          const obstacle = grayObstacleGroup
+          const obstacle: any = grayObstacleGroup
             .create(j * 91 + 50, i * 190 + 400, 'grayObstacles')
             .setImmovable()
             .setSize(60, 60)
@@ -317,12 +337,13 @@ function PhaserGame({
     this.physics.add.collider(player, grayObstacleGroup);
     this.physics.add.overlap(player, clearPoint, () => {
       navigateToClear();
-      gameRef.current.destroy(true);
+      if (gameRef.current !== null) gameRef.current.destroy(true);
     });
 
     this.physics.world.setBounds(0, 0, width, height);
 
-    keys = this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT');
+    if (this.input.keyboard !== null)
+      keys = this.input.keyboard.addKeys('W,A,S,D,UP,DOWN,LEFT,RIGHT');
 
     this.cameras.main.setBounds(0, 0, width, height);
     this.cameras.main.setZoom(1, 1.1);
@@ -332,13 +353,13 @@ function PhaserGame({
     this.cameras.main.startFollow(player);
   }
 
-  function update() {
+  function update(this: Phaser.Scene) {
     if (
       keys.W.isDown &&
       (player.body.onFloor() || canDoubleJump) &&
       !wKeyJustDown
     ) {
-      player.body.setVelocityY(-900);
+      player.body.setVelocityY(-1700);
       jumpSound.play();
       canDoubleJump = false;
       wKeyJustDown = true;
@@ -348,7 +369,7 @@ function PhaserGame({
       (player.body.onFloor() || canDoubleJump) &&
       !upKeyJustDown
     ) {
-      player.body.setVelocityY(-1200);
+      player.body.setVelocityY(-1700);
       jumpSound.play();
       canDoubleJump = false;
       upKeyJustDown = true;
@@ -357,11 +378,11 @@ function PhaserGame({
     if (keys.W.isUp) wKeyJustDown = false;
     if (keys.UP.isUp) upKeyJustDown = false;
 
-    if (keys.A.isDown || keys.LEFT.isDown) player.x -= 7;
+    if (keys.A.isDown || keys.LEFT.isDown) player.x -= 5;
 
     if (keys.S.isDown || keys.DOWN.isDown) player.body.setVelocityY(500);
 
-    if (keys.D.isDown || keys.RIGHT.isDown) player.x += 7;
+    if (keys.D.isDown || keys.RIGHT.isDown) player.x += 5;
 
     if (player.body.onFloor()) {
       player.anims.play(
@@ -377,7 +398,13 @@ function PhaserGame({
       player.anims.play(!canDoubleJump ? 'airSpin' : 'jump', true);
     }
 
-    player.setVelocityY(player.body.velocity.y * 0.95);
+    if (player.body.velocity.y > 0) {
+      // 아래로 떨어지는 경우
+      player.setVelocityY(player.body.velocity.y * 1); // 1.05를 조정하여 추락 속도 조절
+    } else {
+      // 위로 올라가는 경우
+      player.setVelocityY(player.body.velocity.y * 0.95); // 기존 점프 속도 감소 로직 유지
+    }
 
     if (player.y < this.cameras.main.scrollY + this.cameras.main.height / 2) {
       this.cameras.main.scrollY = player.y - this.cameras.main.height / 2;
@@ -402,9 +429,9 @@ function PhaserGame({
         onClick={navigatorToGameover}
         alt="exit_button"
       ></img>
-      <div ref={gameRef} />
+      <div ref={gameContainerRef} />
     </>
   );
-}
+};
 
 export { PhaserGame };

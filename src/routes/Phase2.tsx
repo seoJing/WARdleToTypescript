@@ -1,14 +1,23 @@
 import styles from '../css/Phase2.module.css';
 import { PhaserGame } from '../components/PhaserGame';
 
-function Phase2({
+interface Phase2Props {
+  answerArr: string[][];
+  checkArr: string[][];
+  score: number;
+  setScore: React.Dispatch<React.SetStateAction<number>>;
+  greenSound: HTMLAudioElement;
+  graySound: HTMLAudioElement;
+}
+
+const Phase2: React.FC<Phase2Props> = ({
   answerArr,
   checkArr,
   score,
   setScore,
   greenSound,
   graySound,
-}) {
+}) => {
   document.body.style.background = '#FCF6F5';
 
   return (
@@ -26,6 +35,6 @@ function Phase2({
       ></PhaserGame>
     </>
   );
-}
+};
 
 export { Phase2 };

@@ -1,7 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/Ending.module.css';
 
-function Gameover({ handleRestart, buttonSound3, rightAnswer }) {
+interface GameoverProps {
+  handleRestart: any;
+  buttonSound3: HTMLAudioElement;
+  rightAnswer: string;
+}
+
+const Gameover: React.FC<GameoverProps> = ({
+  handleRestart,
+  buttonSound3,
+  rightAnswer,
+}) => {
   const navigate = useNavigate();
 
   function handleOnClick() {
@@ -28,6 +38,6 @@ function Gameover({ handleRestart, buttonSound3, rightAnswer }) {
       </div>
     </>
   );
-}
+};
 
 export { Gameover };

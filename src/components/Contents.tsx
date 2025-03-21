@@ -1,17 +1,23 @@
 import { useEffect, useRef } from 'react';
 import styles from '../css/Phase1.module.css';
 
-function Content({ answerArr, checkArr }) {
-  const scrollRef = useRef();
+interface ContentProps {
+  answerArr: string[][];
+  checkArr: string[][];
+}
+
+const Content: React.FC<ContentProps> = ({ answerArr, checkArr }) => {
+  const scrollRef: React.MutableRefObject<HTMLDivElement | null> = useRef(null);
   useEffect(() => {
     // 현재 스크롤 위치 === scrollRef.current.scrollTop
     // 스크롤 길이 === scrollRef.current.scrollHeight
-    scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    if (scrollRef.current)
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
   });
   // answerArr와 checkArr을 받아와서 content 변수에 map 함수를 이용하여 새로운 배열을 생성한다.
-  const content = answerArr.map((row, i) => {
+  const content: JSX.Element[] = answerArr.map((row: string[], i: number) => {
     // row와 i를 받아와서 spans 변수에 map 함수를 이용하여 새로운 배열을 생성한다.
-    const spans = row.map((char, j) => {
+    const spans: JSX.Element[] = row.map((char: string, j: number) => {
       // checkArr의 i, j 위치에 따라서 color 변수에 적절한 색상 값을 할당한다.
       const color =
         checkArr[i][j] === 'O'
@@ -56,6 +62,6 @@ function Content({ answerArr, checkArr }) {
       {content}
     </div>
   );
-}
+};
 
 export default Content;

@@ -1,4 +1,4 @@
-let rightAnswerArr = [
+let rightAnswerArr: string[] = [
   '온천',
   '가로수',
   '가이드',

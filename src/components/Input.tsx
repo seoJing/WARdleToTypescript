@@ -3,10 +3,22 @@ import { useNavigate } from 'react-router-dom';
 import Hangul from 'hangul-js';
 import styles from '../css/Phase1.module.css';
 
-const doubleConsonantArr = ['ㄲ', 'ㄸ', 'ㅃ', 'ㅆ', 'ㅉ'];
-const changedDoubleConsonantArr = ['ㄱ', 'ㄷ', 'ㅂ', 'ㅅ', 'ㅈ'];
+interface InputProps {
+  setCheckArr: React.Dispatch<React.SetStateAction<string[][]>>;
+  setAnswerArr: React.Dispatch<React.SetStateAction<string[][]>>;
+  answerArr: string[][];
+  setScore: React.Dispatch<React.SetStateAction<number>>;
+  rightAnswer: string[];
+  greenSound: HTMLAudioElement;
+  orangeSound: HTMLAudioElement;
+  graySound: HTMLAudioElement;
+  buttonSound3: HTMLAudioElement;
+}
 
-function Input({
+const doubleConsonantArr: string[] = ['ㄲ', 'ㄸ', 'ㅃ', 'ㅆ', 'ㅉ'];
+const changedDoubleConsonantArr: string[] = ['ㄱ', 'ㄷ', 'ㅂ', 'ㅅ', 'ㅈ'];
+
+const Input: React.FC<InputProps> = ({
   setCheckArr,
   setAnswerArr,
   answerArr,
@@ -16,10 +28,10 @@ function Input({
   orangeSound,
   graySound,
   buttonSound3,
-}) {
-  const [inputText, setInputText] = useState(['']);
-  const [nextButton, setNextButton] = useState(<></>);
-  const [isRight, setIsRight] = useState(false);
+}) => {
+  const [inputText, setInputText] = useState<JSX.Element[]>([]);
+  const [nextButton, setNextButton] = useState<JSX.Element>(<></>);
+  const [isRight, setIsRight] = useState<boolean>(false);
 
   const navigate = useNavigate();
   const navigateToPhase2 = () => {
@@ -27,20 +39,20 @@ function Input({
     navigate('/Phase2');
   };
 
-  const checkAnswer = (answer) => {
-    let newCheck = Array(rightAnswer.length).fill('X');
+  const checkAnswer = (answer: string[]): string[] => {
+    let newCheck: string[] = Array(rightAnswer.length).fill('X');
     setInputText([]);
 
-    answer.forEach((e, i) => {
+    answer.forEach((e: string, i: number): void => {
       if (e === rightAnswer[i]) {
-        const newPlusScore = <li key={`${i}o`}>+10 score!</li>;
+        const newPlusScore: JSX.Element = <li key={`${i}o`}>+10 score!</li>;
         newCheck[i] = 'O';
         setScore((current) => current + 10);
         setInputText((current) => [...current, newPlusScore]);
       }
     });
 
-    let checkIndex = [];
+    let checkIndex: number[] = [];
     answer.forEach((e, i) => {
       let findIndex = rightAnswer.indexOf(e);
       const isFind = checkIndex.includes(findIndex);
@@ -62,7 +74,7 @@ function Input({
     });
 
     if (newCheck.every((char) => char === 'O')) {
-      setInputText('정답입니다!');
+      setInputText([<span>정답입니다!</span>]);
       setIsRight(true);
       setNextButton(
         <button onClick={navigateToPhase2} className={styles.nextButton}>
@@ -74,14 +86,15 @@ function Input({
     return newCheck;
   };
 
-  const handleKeyDown = (event) => {
+  const handleKeyDown = (event: React.KeyboardEvent) => {
     if (event.code === 'Backspace') return;
 
     event.preventDefault();
 
     if (event.code !== 'Enter' || event.nativeEvent.isComposing) return;
 
-    const newAnswer = Hangul.disassemble(event.target.value);
+    const inputElement = event.target as HTMLInputElement;
+    const newAnswer: string[] = Hangul.disassemble(inputElement.value);
     newAnswer.forEach((e, i) => {
       const index = doubleConsonantArr.indexOf(e);
       if (index !== -1) {
@@ -94,38 +107,38 @@ function Input({
       }
     });
 
-    const alreadyInput = (newAnswer) => {
-      newAnswer = newAnswer.join('');
+    const alreadyInput = (newAnswer: string[]): boolean => {
+      let joimedNewAnswer = newAnswer.join('');
       for (let i = 0; i < answerArr.length; i++) {
-        if (newAnswer === answerArr[i].join('')) return true;
+        if (joimedNewAnswer === answerArr[i].join('')) return true;
       }
       return false;
     };
 
     if (!isRight) {
-      const pattern = /(.)\1{2}/;
+      const pattern: RegExp = /(.)\1{2}/;
       if (answerArr.length !== 0 && alreadyInput(newAnswer)) {
-        setInputText('이미 입력한 단어입니다.');
+        setInputText([<span>이미 입력한 단어입니다.</span>]);
         graySound.play();
       } else if (
         !pattern.test(newAnswer.join('')) &&
         Hangul.assemble(newAnswer).length <= 3
       ) {
         if (newAnswer.length === rightAnswer.length) {
-          const newCheck = checkAnswer(newAnswer);
+          const newCheck: string[] = checkAnswer(newAnswer);
 
           if (newCheck.includes('O')) greenSound.play();
           else if (newCheck.includes('C')) orangeSound.play();
           else if (newCheck.every((char) => char === 'X')) graySound.play();
           setAnswerArr((current) => [...current, newAnswer]);
           setCheckArr((current) => [...current, newCheck]);
-          event.target.value = '';
+          inputElement.value = '';
         } else {
-          setInputText(`정답은 6개의 자소로 이루어져 있습니다!!`);
+          setInputText([<span>정답은 6개의 자소로 이루어져 있습니다!!</span>]);
           graySound.play();
         }
       } else {
-        setInputText(`올바르지 않은 단어입니다.`);
+        setInputText([<span>올바르지 않은 단어입니다.</span>]);
         graySound.play();
       }
     } else {
@@ -145,6 +158,6 @@ function Input({
       {nextButton}
     </>
   );
-}
+};
 
 export default Input;

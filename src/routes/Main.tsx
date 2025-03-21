@@ -2,7 +2,12 @@ import styles from '../css/Main.module.css';
 import { useNavigate } from 'react-router-dom';
 import wardleLogo from '../img/WARdle.png';
 
-function Main({ mainSound, buttonSound3 }) {
+interface MainProps {
+  mainSound: HTMLAudioElement;
+  buttonSound3: HTMLAudioElement;
+}
+
+function Main({ mainSound, buttonSound3 }: MainProps) {
   const navigate = useNavigate();
 
   function navigateToPhase1() {

@@ -1,7 +1,17 @@
 import { useNavigate } from 'react-router-dom';
 import styles from '../css/Ending.module.css';
 
-function Clear({ score, handleRestart, buttonSound3 }) {
+interface ClearProps {
+  score: number;
+  handleRestart: any;
+  buttonSound3: HTMLAudioElement;
+}
+
+const Clear: React.FC<ClearProps> = ({
+  score,
+  handleRestart,
+  buttonSound3,
+}) => {
   const navigate = useNavigate();
 
   function handleOnClick() {
@@ -28,6 +38,6 @@ function Clear({ score, handleRestart, buttonSound3 }) {
       </div>
     </>
   );
-}
+};
 
 export { Clear };
