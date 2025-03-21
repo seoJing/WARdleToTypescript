@@ -19,7 +19,7 @@
     "react-phaser-fiber": "^0.2.4",
     "react-redux": "^8.0.5",
     "react-router-dom": "^6.9.0",
-    "react-scripts": "5.0.1",
+    "react-scripts": "^5.0.1",
     "read-excel-file": "^5.6.1",
     "redux": "^4.2.1",
     "redux-toolkit": "^1.1.2",
@@ -55,7 +55,9 @@
     ]
   },
   "devDependencies": {
-    "@svgr/webpack": "^6.5.1"
+    "@svgr/webpack": "^6.5.1",
+    "@types/node": "^22.13.10",
+    "typescript": "^5.8.2"
   },
   "homepage": "https://seojing.github.io/WARdle"
 }

@@ -56,7 +56,7 @@ function PhaserGame({
   let grayObstacleGroup;
   let angle = 0;
   let radius = 150;
-  let speed = 0.05;
+  let speed = 0.02;
   let isFirst = true;
 
   let keys;
@@ -348,7 +348,7 @@ function PhaserGame({
       (player.body.onFloor() || canDoubleJump) &&
       !upKeyJustDown
     ) {
-      player.body.setVelocityY(-900);
+      player.body.setVelocityY(-1200);
       jumpSound.play();
       canDoubleJump = false;
       upKeyJustDown = true;
