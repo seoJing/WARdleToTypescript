@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/WARdleToTypescript/static/css/main.93f00fa9.css",
-    "main.js": "/WARdleToTypescript/static/js/main.4f02baa8.js",
+    "main.js": "/WARdleToTypescript/static/js/main.1e8de3b1.js",
     "static/media/main.mp3": "/WARdleToTypescript/static/media/main.dc3778670ecece0658d1.mp3",
     "static/media/button.wav": "/WARdleToTypescript/static/media/button.77cba0fa0a95abb2252f.wav",
     "static/media/button3.wav": "/WARdleToTypescript/static/media/button3.daf7cffaf4c173ac7b76.wav",
@@ -15,10 +15,10 @@
     "static/media/WARdle.png": "/WARdleToTypescript/static/media/WARdle.605b1e6dabfde95bd700.png",
     "index.html": "/WARdleToTypescript/index.html",
     "main.93f00fa9.css.map": "/WARdleToTypescript/static/css/main.93f00fa9.css.map",
-    "main.4f02baa8.js.map": "/WARdleToTypescript/static/js/main.4f02baa8.js.map"
+    "main.1e8de3b1.js.map": "/WARdleToTypescript/static/js/main.1e8de3b1.js.map"
   },
   "entrypoints": [
     "static/css/main.93f00fa9.css",
-    "static/js/main.4f02baa8.js"
+    "static/js/main.1e8de3b1.js"
   ]
 }
