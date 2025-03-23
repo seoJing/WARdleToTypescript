@@ -1,0 +1,24 @@
+{
+  "files": {
+    "main.css": "/WARdleToTypescirpt/static/css/main.432b7623.css",
+    "main.js": "/WARdleToTypescirpt/static/js/main.e1000168.js",
+    "static/media/main.mp3": "/WARdleToTypescirpt/static/media/main.dc3778670ecece0658d1.mp3",
+    "static/media/button.wav": "/WARdleToTypescirpt/static/media/button.77cba0fa0a95abb2252f.wav",
+    "static/media/button3.wav": "/WARdleToTypescirpt/static/media/button3.daf7cffaf4c173ac7b76.wav",
+    "static/media/orange.wav": "/WARdleToTypescirpt/static/media/orange.7c5424c2422bd5881e3f.wav",
+    "static/media/button2.wav": "/WARdleToTypescirpt/static/media/button2.55114f4d2a2ff091287a.wav",
+    "static/media/ex2.png": "/WARdleToTypescirpt/static/media/ex2.d17b9ace11763fcfad6f.png",
+    "static/media/green.wav": "/WARdleToTypescirpt/static/media/green.30c61a0aca69793fc6dc.wav",
+    "static/media/ex3.png": "/WARdleToTypescirpt/static/media/ex3.e8c73dde8f3bdbfd2f28.png",
+    "static/media/gray.wav": "/WARdleToTypescirpt/static/media/gray.dafc1e83d2c11899bd33.wav",
+    "static/media/ex.png": "/WARdleToTypescirpt/static/media/ex.c03000d324a09050e107.png",
+    "static/media/WARdle.png": "/WARdleToTypescirpt/static/media/WARdle.605b1e6dabfde95bd700.png",
+    "index.html": "/WARdleToTypescirpt/index.html",
+    "main.432b7623.css.map": "/WARdleToTypescirpt/static/css/main.432b7623.css.map",
+    "main.e1000168.js.map": "/WARdleToTypescirpt/static/js/main.e1000168.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.432b7623.css",
+    "static/js/main.e1000168.js"
+  ]
+}
