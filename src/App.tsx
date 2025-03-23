@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { HashRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import Hangul from 'hangul-js';
 
 import { Main } from './routes/Main';
@@ -65,10 +65,10 @@ function App() {
       window.addEventListener('beforeunload', preventClose);
     })();
   }, []);
-  //basename={process.env.PUBLIC_URL}
+
   return (
     <>
-      <HashRouter>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Routes>
           <Route
             path={`/`}
@@ -137,7 +137,7 @@ function App() {
           ></Route>
           <Route path={`/Death`} element={<Death></Death>}></Route>
         </Routes>
-      </HashRouter>
+      </BrowserRouter>
     </>
   );
 }

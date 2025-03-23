@@ -94,10 +94,13 @@ const PhaserGame: React.FC<PhaserGameProps> = ({
   const navigateToDeath = () => {
     if (gameRef.current) {
       gameRef.current.destroy(true);
+      gameRef.current = null;
     }
+    player = null; // player 초기화
     graySound.play();
     navigate('/Death');
   };
+
   const navigateToClear = () => {
     greenSound.play();
     navigate('/Clear');
@@ -326,13 +329,21 @@ const PhaserGame: React.FC<PhaserGameProps> = ({
     this.physics.add.collider(player, orangeObstacleGroup, () => {
       hitSound.play();
       setScore((score) => score - 5);
-      if (player.y <= width) {
-        player.y += 10;
-        player.setVelocityX(-500);
-      } else {
-        player.y -= 10;
-        player.setVelocityX(500);
-      }
+
+      // 플레이어가 장애물과 충돌 후 일시적으로 제어 불가능하도록 설정
+      player.setVelocityX(player.x < width / 2 ? -300 : 300); // 밀려나는 속도 감소
+      player.setVelocityY(-200); // 약간의 튕김 효과 추가
+      player.setTint(0xff0000); // 시각적으로 충돌 표시 (빨간색)
+
+      player.setCollideWorldBounds(false); // 한 번 밀려날 때 벽에 걸리지 않도록
+
+      // 0.5초 후 이동 가능 상태로 복귀
+      setTimeout(() => {
+        if (!player || !player.body) return;
+        player.setVelocityX(0); // 이동 중지
+        player.clearTint(); // 색상 원래대로 복귀
+        player.setCollideWorldBounds(true);
+      }, 500);
     });
     this.physics.add.collider(player, grayObstacleGroup);
     this.physics.add.overlap(player, clearPoint, () => {
