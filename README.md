@@ -1,6 +1,6 @@
 WADdle
 
-https://seojing.github.io/WARdle/
+https://seojing.github.io/WARdleToTypescript/
 
 ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
 
